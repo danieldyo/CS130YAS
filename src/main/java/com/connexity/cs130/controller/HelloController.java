@@ -36,15 +36,15 @@ public class HelloController {
     }
 
     @RequestMapping("/catalog")
-    public String catalog(Map<String, Object> context) {
+    public String catalog(@RequestParam(name = "search") String keyword, Map<String, Object> context) {
         ProductResponse response;
-        String url = createMerchantInfoRequestUrl("bed");
+        String url = createMerchantInfoRequestUrl(keyword);
         response = restTemplate.getForEntity(url, ProductResponse.class).getBody();
         context.put("message", response);
         return "helloDynamic";
     }
 
-    @RequestMapping(value="/proxy", produces = "Application/json")
+    /*@RequestMapping(value="/proxy", produces = "Application/json")
     @ResponseBody
     public ProductResponse proxy() {
         ProductResponse response;
@@ -52,7 +52,7 @@ public class HelloController {
         response = restTemplate.getForEntity(url, ProductResponse.class).getBody();
 
         return response;
-    }
+    }*/
 
     private String createMerchantInfoRequestUrl(String keyword) {
         String url = "http://catalog.bizrate.com/services/catalog/v1/api/product?apiKey="

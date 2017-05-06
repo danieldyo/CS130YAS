@@ -3,7 +3,7 @@ function logData() {
 	.then(response => {
 		response.json().then(data => {
 			console.log(data);
-			alert("See console for logged object!")
+			//alert("See console for logged object!")
 		});
 	});
 }
