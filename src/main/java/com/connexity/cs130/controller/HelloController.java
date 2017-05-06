@@ -1,6 +1,7 @@
 package com.connexity.cs130.controller;
 
 import com.connexity.cs130.model.MerchantsResponse;
+import com.connexity.cs130.model.ProductResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
@@ -36,26 +37,26 @@ public class HelloController {
 
     @RequestMapping("/catalog")
     public String catalog(Map<String, Object> context) {
-        MerchantsResponse response;
-        String url = createMerchantInfoRequestUrl(401L);
-        response = restTemplate.getForEntity(url, MerchantsResponse.class).getBody();
+        ProductResponse response;
+        String url = createMerchantInfoRequestUrl("bed");
+        response = restTemplate.getForEntity(url, ProductResponse.class).getBody();
         context.put("message", response);
         return "helloDynamic";
     }
 
     @RequestMapping(value="/proxy", produces = "Application/json")
     @ResponseBody
-    public MerchantsResponse proxy() {
-        MerchantsResponse response;
-        String url = createMerchantInfoRequestUrl(401L);
-        response = restTemplate.getForEntity(url, MerchantsResponse.class).getBody();
+    public ProductResponse proxy() {
+        ProductResponse response;
+        String url = createMerchantInfoRequestUrl("bed");
+        response = restTemplate.getForEntity(url, ProductResponse.class).getBody();
 
         return response;
     }
 
-    private String createMerchantInfoRequestUrl(Long merchantId) {
-        String url = "http://catalog.bizrate.com/services/catalog/v1/api/merchantinfo?apiKey="
-                + "f94ab04178d1dea0821d5816dfb8af8d" + "&publisherId=" + "608865" + "&merchantId=" + merchantId;
+    private String createMerchantInfoRequestUrl(String keyword) {
+        String url = "http://catalog.bizrate.com/services/catalog/v1/api/product?apiKey="
+                + "f94ab04178d1dea0821d5816dfb8af8d" + "&publisherId=" + "608865" + "&keyword=" + keyword + "&format=json";
         return url;
     }
 }
