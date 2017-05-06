@@ -6,39 +6,39 @@ import java.util.List;
  * Created by 161497 on 4/20/17.
  */
 public class ProductResponse {
-    public Products product;
+    public Products products;
 
     @Override
     public String toString() {
         return "ProductResponse{" +
-                "product=" + product +
+                "products=" + products +
                 '}';
     }
 
     public static class Products {
-        public List<Offer> offers;
+        public List<Product> product;
 
         @Override
         public String toString() {
             return "Products{" +
-            "offers=" + offers +
+                    "product=" + product +
             '}';
         }
 
 
     }
 
-    public static class Offer {
+    public static class Product {
         public String title;
         public String description;
         public String manufacturer;
 
         @Override
         public String toString() {
-            return "Offer{" +
+            return "Product{" +
                     "title='" + title + '\'' +
-                    "description='" + description + '\'' +
-                    "manufacturer='" + manufacturer + '\'' +
+                    ", description='" + description + '\'' +
+                    ", manufacturer='" + manufacturer + '\'' +
                     '}';
         }
     }
