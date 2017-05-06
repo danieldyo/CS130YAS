@@ -36,7 +36,7 @@ public class HelloController {
     }
 
     @RequestMapping("/catalog")
-    public String catalog(@RequestParam(name = "search") String keyword, Map<String, Object> context) {
+    public String catalog(@RequestParam(name = "keyword") String keyword, Map<String, Object> context) {
         ProductResponse response;
         String url = createMerchantInfoRequestUrl(keyword);
         response = restTemplate.getForEntity(url, ProductResponse.class).getBody();
