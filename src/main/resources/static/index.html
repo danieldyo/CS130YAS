@@ -2,14 +2,19 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Title</title>
+  <title>YAS</title>
+  <link rel="stylesheet" type="text/css" href="/css/styles.css">
 </head>
 <body>
 
-<form>
-  Search: <input type="text" name="keyword">
-  <button>Submit</button>
-</form>
+<div id="container">
+<h2>How much is my stuff worth?</h2>
+  <form action="/api/search">
+    <input id="searchbox" type="text" name="keyword">
+    <button id="submit">→</button>
+  </form>
+</div>
+
 </body>
 
 <script src="/js/scripts.js"></script>
