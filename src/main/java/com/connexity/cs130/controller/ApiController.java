@@ -29,6 +29,12 @@ public class ApiController {
     @RequestMapping("/search")
     public String catalog(@RequestParam(name = "keyword") String keyword, Map<String, Object> context) {
         ProductResponse response;
+
+        if (keyword == "") {
+            context.put("message", "Please input a product name");
+            return "helloDynamic";
+        }
+
         String url = createProductInfoRequestUrl(keyword);
         response = restTemplate.getForEntity(url, ProductResponse.class).getBody();
         context.put("message", response);
