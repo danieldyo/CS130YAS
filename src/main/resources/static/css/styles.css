@@ -1,0 +1,46 @@
+@import url('https://fonts.googleapis.com/css?family=Fjalla+One');
+
+html {
+    font-family: 'Fjalla One', sans-serif;
+    background: linear-gradient(#baf4ea, #ffcc69);
+    background-size: cover;
+    height: 100%;
+}
+
+body {
+    margin: 35px;
+}
+
+h2 {
+    font-size: 40px;
+    margin-bottom: 10px;
+}
+
+#searchbox {
+    width: 50%;
+    height: 40px;
+    font-size: 24px;
+}
+
+#submit {
+    font-family: 'Fjalla One', sans-serif;
+    font-size: 24px;
+    height: 46px;
+    vertical-align: top;
+    background-color: lightgray;
+    border: none;
+    margin: 0;
+    cursor: hand;
+}
+
+#container {
+    text-align: center;
+    width: 75%;
+    height: 200px;
+    margin: auto;
+    position: absolute;
+    top: -10%;
+    bottom: 0;
+    left: 0;
+    right: 0;
+}
