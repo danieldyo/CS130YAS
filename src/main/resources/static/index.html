@@ -6,15 +6,19 @@
   <link rel="stylesheet" type="text/css" href="/css/styles.css">
 </head>
 
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 <body>
 
 <div id="container">
-<h2>How much is my stuff worth?</h2>
-  <form action="/api/search">
-    <input id="searchbox" type="text" name="keyword">
-    <button id="submit">→</button>
+    <h2><a href="/" style="text-decoration:none">How much is my stuff worth?</a></h2>
+  <form id="productSearch">
+    <input id="searchbox" type="text" name="keyword" onsubmit="productSearch()">
+    <button class="submit" onclick="productSearch()">→</button>
   </form>
 </div>
+
+
+
 
 </body>
 

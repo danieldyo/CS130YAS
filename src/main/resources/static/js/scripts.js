@@ -7,3 +7,15 @@ function logData() {
 		});
 	});
 }
+
+function productSearch() {
+    $('#productSearch').attr('action','/api/search');
+}
+
+function productSearchAsc() {
+    $('#productSearch').attr('action','/api/searchAsc');
+}
+
+function productSearchDesc() {
+    $('#productSearch').attr('action','/api/searchDesc');
+}

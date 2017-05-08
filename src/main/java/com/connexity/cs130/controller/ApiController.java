@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.client.RestTemplate;
 
@@ -27,23 +28,43 @@ public class ApiController {
     Long publisherId;
 
     @RequestMapping("/search")
-    public String catalog(@RequestParam(name = "keyword") String keyword, Map<String, Object> context) {
-        ProductResponse response;
+    public String search(@RequestParam("keyword") String keyword, Map<String, Object> context) {
+        String sort = "relevancy_desc";
+
+        return getProductResponse(keyword, sort, context);
+    }
+
+    @RequestMapping(value = "/searchAsc", method = RequestMethod.GET)
+    public String searchAsc(@RequestParam("keyword") String keyword, Map<String, Object> context) {
+        String sort = "price_asc";
+
+        return getProductResponse(keyword, sort, context);
+    }
+
+    @RequestMapping("/searchDesc")
+    public String searchDesc(@RequestParam("keyword") String keyword, Map<String, Object> context) {
+        String sort = "price_desc";
+        return getProductResponse(keyword, sort, context);
+    }
+
+    private String getProductResponse(String keyword, String sort, Map<String,Object> context) {
 
         if (keyword == "") {
             context.put("message", "Please input a product name");
             return "helloDynamic";
         }
 
-        String url = createProductInfoRequestUrl(keyword);
+        ProductResponse response;
+
+        String url = createProductInfoRequestUrl(keyword, sort);
         response = restTemplate.getForEntity(url, ProductResponse.class).getBody();
         context.put("message", response);
         return "helloDynamic";
     }
 
-    private String createProductInfoRequestUrl(String keyword) {
+    private String createProductInfoRequestUrl(String keyword, String sort) {
         String url = "http://catalog.bizrate.com/services/catalog/v1/api/product?apiKey="
-                + apiKey + "&publisherId=" + publisherId + "&keyword=" + keyword + "&format=json";
+                + apiKey + "&publisherId=" + publisherId + "&keyword=" + keyword + "&format=json" + "&sort=" + sort;
         return url;
     }
 }

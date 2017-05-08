@@ -2,16 +2,27 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Title</title>
+  <title>YAS</title>
+  <link rel="stylesheet" type="text/css" href="/css/styles.css">
 </head>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 <body>
 
-<form action="/api/search">
-  Search: <input type="text" name="keyword">
-  <input type="submit" value="Submit">
-</form>
+<div id="container">
+  <h2><a href="/" style="text-decoration:none">How much is my stuff worth?</a></h2>
+  <form id="productSearch">
+    <input id="searchbox" type="text" name="keyword" onsubmit="productSearch()">
+    <button class="submit" onclick="productSearch()">→</button>
+    <button class="submit" onclick="productSearchAsc()">$$↑</button>
+    <button class="submit" onclick="productSearchDesc()">$$↓</button>
+  </form>
+</div>
+<div>
+  {{message}}
+</div>
 
-{{message}}
+
 </body>
 
 <script src="/js/scripts.js"></script>
