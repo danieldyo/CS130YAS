@@ -4,6 +4,8 @@ html {
     font-family: 'Fjalla One', sans-serif;
     background: linear-gradient(#baf4ea, #ffcc69);
     background-size: cover;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
     height: 100%;
 }
 
@@ -14,6 +16,10 @@ body {
 h2 {
     font-size: 40px;
     margin-bottom: 10px;
+}
+
+a, a:hover, a:visited {
+    color: black;
 }
 
 #searchbox {
@@ -55,4 +61,5 @@ h2 {
     padding-top: 35px;
     width: 75%;
     margin: 0 auto;
+    overflow: hidden;
 }

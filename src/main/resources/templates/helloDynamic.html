@@ -9,7 +9,7 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 <body>
 
-<div id="container">
+<div id="searchbar">
   <h2><a href="/" style="text-decoration:none">How much is my stuff worth?</a></h2>
   <form id="productSearch">
     <input id="searchbox" type="text" name="keyword" onsubmit="productSearch()">
@@ -18,7 +18,7 @@
     <button class="submit" onclick="productSearchDesc()">$$↓</button>
   </form>
 </div>
-<div>
+<div id="response">
   {{message}}
 </div>
 
