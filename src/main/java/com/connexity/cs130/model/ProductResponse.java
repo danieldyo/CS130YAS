@@ -10,8 +10,7 @@ public class ProductResponse {
 
     @Override
     public String toString() {
-        return "ProductResponse{" +
-                "products=" + products +
+        return  "Products: {" + products +
                 '}';
     }
 
@@ -20,8 +19,7 @@ public class ProductResponse {
 
         @Override
         public String toString() {
-            return "Products{" +
-                    "product=" + product +
+            return "Product: {" + product +
             '}';
         }
 
@@ -32,13 +30,61 @@ public class ProductResponse {
         public String title;
         public String description;
         public String manufacturer;
+        public URL url;
+        public Price price;
+        public Images images;
+        public String merchantName;
 
         @Override
         public String toString() {
-            return "Product{" +
-                    "title='" + title + '\'' +
-                    ", description='" + description + '\'' +
-                    ", manufacturer='" + manufacturer + '\'' +
+            return "title: '" + title + '\'' +
+                    ", description: '" + description + '\'' +
+                    ", manufacturer: '" + manufacturer + '\'' +
+                    ", " +  url + '\'' +
+                    ", " +  images + '\'' +
+                    ", " +  price + '\'' +
+                    ", merchantName: '" + merchantName + '\'' +
+                    '}';
+        }
+    }
+
+    public static class Images {
+        public List<Image> image;
+
+        @Override
+        public String toString() {
+            return "Images: {" +
+                    image + '\'' +
+                    '}';
+        }
+    }
+
+    public static class Image {
+        public String value;
+
+        @Override
+        public String toString() {
+            return  "image: {'" + value + '\'' +
+                    '}';
+        }
+    }
+
+    public static class Price {
+        public String value;
+
+        @Override
+        public String toString() {
+            return  "price: {'" + value + '\'' +
+                    '}';
+        }
+    }
+
+    public static class URL {
+        public String value;
+
+        @Override
+        public String toString() {
+            return  "url: {'" + value + '\'' +
                     '}';
         }
     }
