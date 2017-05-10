@@ -34,7 +34,7 @@ public class ApiController {
         return getProductResponse(keyword, sort, context);
     }
 
-    @RequestMapping(value = "/searchAsc", method = RequestMethod.GET)
+    @RequestMapping(value = "/searchAsc")
     public String searchAsc(@RequestParam("keyword") String keyword, Map<String, Object> context) {
         String sort = "price_asc";
 
@@ -51,6 +51,7 @@ public class ApiController {
 
         if (keyword == "") {
             context.put("message", "Please input a product name.");
+            context.put("product", "");
             return "helloDynamic";
         }
 
