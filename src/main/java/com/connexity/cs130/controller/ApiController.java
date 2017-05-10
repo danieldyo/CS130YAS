@@ -50,7 +50,7 @@ public class ApiController {
     private String getProductResponse(String keyword, String sort, Map<String,Object> context) {
 
         if (keyword == "") {
-            context.put("message", "Please input a product name");
+            context.put("message", "Please input a product name.");
             return "helloDynamic";
         }
 
@@ -59,6 +59,7 @@ public class ApiController {
         String url = createProductInfoRequestUrl(keyword, sort);
         response = restTemplate.getForEntity(url, ProductResponse.class).getBody();
         context.put("message", response);
+        context.put("product", keyword);
         return "helloDynamic";
     }
 
