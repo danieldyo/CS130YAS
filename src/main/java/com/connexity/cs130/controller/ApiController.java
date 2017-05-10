@@ -51,6 +51,8 @@ public class ApiController {
 
         if (keyword == "") {
             context.put("message", "Please input a product name.");
+            context.put("product", "");
+            // Need this or else if no message will get an error
             return "helloDynamic";
         }
 
