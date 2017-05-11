@@ -53,9 +53,8 @@ public class ProductResponse {
 
         @Override
         public String toString() {
-            return "Images: {" +
-                    image + '\'' +
-                    '}';
+            return "Images: " +
+                    image;
         }
     }
 
@@ -64,8 +63,7 @@ public class ProductResponse {
 
         @Override
         public String toString() {
-            return  "image: {'" + value + '\'' +
-                    '}';
+            return value;
         }
     }
 
@@ -74,8 +72,7 @@ public class ProductResponse {
 
         @Override
         public String toString() {
-            return  "price: {'" + value + '\'' +
-                    '}';
+            return  value;
         }
     }
 

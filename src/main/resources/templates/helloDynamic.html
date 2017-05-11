@@ -19,7 +19,13 @@
   </form>
 </div>
 <div id="response">
-  {{message}}
+  <ul>
+    {{#products}}
+    <li>
+      <img src="{{images.image.0}}" /> &nbsp <span class="big">{{title}}</span> &nbsp {{price}}
+    </li>
+    {{/products}}
+  </ul>
 </div>
 
 

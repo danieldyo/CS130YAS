@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css?family=Fjalla+One');
+@import url('https://fonts.googleapis.com/css?family=Fjalla+One|Open+Sans+Condensed:300');
 
 html {
     font-family: 'Fjalla One', sans-serif;
@@ -22,6 +22,19 @@ a, a:hover, a:visited {
     color: black;
 }
 
+ul {
+    list-style: none;
+    font-family: "Open Sans Condensed", sans-serif;
+}
+
+li {
+    margin-bottom: 10px;
+}
+
+img {
+    vertical-align: middle;
+}
+
 #searchbox {
     width: 50%;
     height: 40px;
@@ -37,6 +50,11 @@ a, a:hover, a:visited {
     border: none;
     margin: 0;
     cursor: hand;
+}
+
+.big {
+    font-size: 24px;
+    font-weight: bold;
 }
 
 #container {

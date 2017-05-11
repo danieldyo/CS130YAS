@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.client.RestTemplate;
 
+import java.util.ArrayList;
 import java.util.Map;
 
 /**
@@ -59,6 +60,13 @@ public class ApiController {
 
         String url = createProductInfoRequestUrl(keyword, sort);
         response = restTemplate.getForEntity(url, ProductResponse.class).getBody();
+
+        ArrayList<ProductResponse.Product> prs = new ArrayList<>();
+
+        for (int i = 0; i != response.products.product.size(); i++) {
+            prs.add(response.products.product.get(i));
+        }
+        context.put("products", prs);
         context.put("message", response);
         context.put("product", keyword);
         return "helloDynamic";
