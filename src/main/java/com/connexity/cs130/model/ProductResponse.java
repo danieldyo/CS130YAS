@@ -31,7 +31,7 @@ public class ProductResponse {
         public String description;
         public String manufacturer;
         public URL url;
-        public Price price;
+        public Price price = new Price();
         public Images images;
         public String merchantName;
 
@@ -68,7 +68,7 @@ public class ProductResponse {
     }
 
     public static class Price {
-        public String value;
+        public String value = "N/A";
 
         @Override
         public String toString() {
