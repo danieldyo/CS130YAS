@@ -52,8 +52,8 @@ public class ApiController {
 
         if (keyword == "") {
             context.put("message", "Please input a product name.");
-            context.put("product", "");
-            return "helloDynamic";
+            context.put("searchTerm", "");
+            return "dynamicSearch";
         }
 
         ProductResponse response;
@@ -68,11 +68,11 @@ public class ApiController {
         }
         context.put("products", prs);
         context.put("message", response);
-        context.put("product", keyword);
+        context.put("searchTerm", keyword);
 
         if (prs.size() == 0) {
             context.put("message", "No results found.");
-            return "helloDynamic";
+            return "dynamicSearch";
         }
 
         context.put("products", prs);
