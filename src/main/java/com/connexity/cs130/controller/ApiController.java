@@ -52,8 +52,8 @@ public class ApiController {
 
         if (keyword == "") {
             context.put("message", "Please input a product name.");
-            context.put("product", "");
-            return "helloDynamic";
+            context.put("searchTerm", "");
+            return "dynamicSearch";
         }
 
         ProductResponse response;
@@ -69,7 +69,7 @@ public class ApiController {
         context.put("products", prs);
         context.put("message", response);
         context.put("product", keyword);
-        return "helloDynamic";
+        return "dynamicSearch";
     }
 
     private String createProductInfoRequestUrl(String keyword, String sort) {
