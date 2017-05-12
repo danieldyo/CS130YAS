@@ -66,9 +66,16 @@ public class ApiController {
         for (int i = 0; i != response.products.product.size(); i++) {
             prs.add(response.products.product.get(i));
         }
-        context.put("products", prs);
-        context.put("message", response);
+
         context.put("product", keyword);
+
+        if (prs.size() == 0) {
+            context.put("message", "No results found.");
+            return "helloDynamic";
+        }
+
+        context.put("products", prs);
+        context.put("message", "");
         return "helloDynamic";
     }
 
