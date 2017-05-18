@@ -48,6 +48,13 @@ public class ApiController {
         return getProductResponse(keyword, sort, context);
     }
 
+    /*
+    @RequestMapping("/searchUPC")
+    public String upcSearch(@RequestParam("upc") String upc, Map<String, Object> context) {
+        return getUPCResponse(upc, context);
+    }
+    */
+
     private String getProductResponse(String keyword, String sort, Map<String,Object> context) {
 
         if (keyword == "") {
@@ -80,9 +87,44 @@ public class ApiController {
         return "dynamicSearch";
     }
 
+/*
+    private String getUPCResponse(String upc, Map<String,Object> context) {
+        ProductResponse response;
+
+        String url = createProductUPCRequestUrl(upc);
+        response = restTemplate.getForEntity(url, ProductResponse.class).getBody();
+
+        ArrayList<ProductResponse.Product> prs = new ArrayList<>();
+
+        for (int i = 0; i != response.products.product.size(); i++) {
+            prs.add(response.products.product.get(i));
+        }
+
+        context.put("products", prs);
+        context.put("message", response);
+
+        if (prs.size() == 0) {
+            context.put("message", "Display 404 Page");
+            return "itemPage";
+        }
+
+        context.put("products", prs);
+        context.put("message", "");
+        return "itemPage";
+    }
+*/
+
     private String createProductInfoRequestUrl(String keyword, String sort) {
         String url = "http://catalog.bizrate.com/services/catalog/v1/api/product?apiKey="
                 + apiKey + "&publisherId=" + publisherId + "&keyword=" + keyword + "&format=json" + "&sort=" + sort;
         return url;
     }
+
+    /*
+    private String createProductUPCRequestUrl(String upc) {
+        String url = "http://catalog.bizrate.com/services/catalog/v1/api/product?apiKey="
+                + apiKey + "&publisherId=" + publisherId + "&=productId=" + upc + "&=productIdType=UPC";
+        return url;
+    }
+    */
 }

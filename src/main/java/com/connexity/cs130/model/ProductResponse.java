@@ -23,7 +23,6 @@ public class ProductResponse {
             '}';
         }
 
-
     }
 
     public static class Product {
@@ -34,6 +33,7 @@ public class ProductResponse {
         public Price price = new Price();
         public Images images;
         public String merchantName;
+        public String upc;
 
         @Override
         public String toString() {
@@ -46,7 +46,14 @@ public class ProductResponse {
                     ", merchantName: '" + merchantName + '\'' +
                     '}';
         }
+
+        /*
+        public String upcString() {
+            return upc;
+        }
+        */
     }
+
 
     public static class Images {
         public List<Image> image;
@@ -81,7 +88,7 @@ public class ProductResponse {
 
         @Override
         public String toString() {
-            return  "url: {'" + value + '\'' +
+            return "url: {'" + value + '\'' +
                     '}';
         }
     }
