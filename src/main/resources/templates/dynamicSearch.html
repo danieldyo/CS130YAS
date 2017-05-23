@@ -14,8 +14,11 @@
   <form id="productSearch">
     <input id="searchbox" type="text" name="keyword" onsubmit="productSearch()" value="{{searchTerm}}">
     <button class="submit" onclick="productSearch()">→</button>
-    <button class="submit" onclick="productSearchAsc()">$$↑</button>
-    <button class="submit" onclick="productSearchDesc()">$$↓</button>
+    <button class="submit" onclick="productSearchAsc()">$↑</button>
+    <button class="submit" onclick="productSearchDesc()">$↓</button>
+
+    $ <input class="priceBox" type="text" name="minPrice" onsubmit="productSearch()" value="{{minPrice}}">
+    to $ <input class="priceBox" type="text" name="maxPrice" onsubmit="productSearch()" value="{{maxPrice}}">
   </form>
 </div>
 <div id="response">
