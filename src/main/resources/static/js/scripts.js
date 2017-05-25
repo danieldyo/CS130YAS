@@ -23,3 +23,11 @@ function productSearchAsc() {
 function productSearchDesc() {
     $('#productSearch').attr('action','/api/searchDesc');
 }
+
+function productNextPage() {
+    $('#productSearch').attr('action','/api/nextPage');
+}
+
+function productPrevPage() {
+    $('#productSearch').attr('action','/api/prevPage');
+}

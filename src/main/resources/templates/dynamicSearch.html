@@ -14,15 +14,19 @@
   <form id="productSearch">
     <input id="searchbox" type="text" name="keyword" onsubmit="productSearch()" value="{{searchTerm}}">
     <button class="submit" onclick="productSearch()">→</button>
-    <button class="submit" onclick="productSearchAsc()">$↑</button>
-    <button class="submit" onclick="productSearchDesc()">$↓</button>
-
+    <button class="submit" onclick="productSearchAsc()">$$↑</button>
+    <button class="submit" onclick="productSearchDesc()">$$↓</button>
     $ <input class="priceBox" type="text" name="minPrice" onsubmit="productSearch()" value="{{minPrice}}">
     to $ <input class="priceBox" type="text" name="maxPrice" onsubmit="productSearch()" value="{{maxPrice}}">
+    <p>
+      <button class="pagination" name="prev" value="{{pageNo}}" onclick="productPrevPage()">Previous</button>
+      <button class="pagination" name="next" value="{{pageNo}}" onclick="productNextPage()">Next</button>
+    </p>
   </form>
 </div>
 <div id="response">
-  {{message}}
+  You are currently on page {{pageNo}}.
+  <br>There are {{message.totalResults}} results.
   <ul>
     {{#products}}
     <li>

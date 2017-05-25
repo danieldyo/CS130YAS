@@ -16,11 +16,13 @@ public class ProductResponse {
 
     public static class Products {
         public List<Product> product;
+        public String totalResults;
 
         @Override
         public String toString() {
-            return "Product: {" + product +
-            '}';
+            return "TotalResults:" + totalResults + "\'" + "," +
+                    "Product: {" + product +
+                    '}';
         }
 
 

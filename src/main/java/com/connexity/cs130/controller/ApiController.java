@@ -33,30 +33,46 @@ public class ApiController {
     public String search(@RequestParam("keyword") String keyword, Map<String, Object> context) {
         String sort = "relevancy_desc";
 
-        return getProductResponse(keyword, sort, context, "", "");
+        return getProductResponse(keyword, sort, context, 0,"", "");
     }
 
     @RequestMapping("/search")
     public String search(@RequestParam("keyword") String keyword, Map<String, Object> context, @RequestParam("minPrice") String minPrice, @RequestParam("maxPrice") String maxPrice) {
         String sort = "relevancy_desc";
 
-        return getProductResponse(keyword, sort, context, minPrice, maxPrice);
+        return getProductResponse(keyword, sort, context, 0,minPrice, maxPrice);
     }
 
     @RequestMapping(value = "/searchAsc")
     public String searchAsc(@RequestParam("keyword") String keyword, Map<String, Object> context, @RequestParam("minPrice") String minPrice, @RequestParam("maxPrice") String maxPrice) {
         String sort = "price_asc";
 
-        return getProductResponse(keyword, sort, context, minPrice, maxPrice);
+        return getProductResponse(keyword, sort, context, 0, minPrice, maxPrice);
     }
 
     @RequestMapping("/searchDesc")
     public String searchDesc(@RequestParam("keyword") String keyword, Map<String, Object> context, @RequestParam("minPrice") String minPrice, @RequestParam("maxPrice") String maxPrice) {
         String sort = "price_desc";
-        return getProductResponse(keyword, sort, context, minPrice, maxPrice);
+        return getProductResponse(keyword, sort, context, 0,minPrice, maxPrice);
     }
 
-    private String getProductResponse(String keyword, String sort, Map<String,Object> context, String minPrice, String maxPrice) {
+    @RequestMapping("/nextPage")
+    public String nextPage(@RequestParam("keyword") String keyword, @RequestParam("next") int pageNo, Map<String, Object> context, @RequestParam("minPrice") String minPrice, @RequestParam("maxPrice") String maxPrice) {
+        String sort = "relevancy_desc";
+        return getProductResponse(keyword, sort, context,  pageNo + 1 , minPrice, maxPrice);
+    }
+
+    @RequestMapping("/prevPage")
+    public String prevPage(@RequestParam("keyword") String keyword, @RequestParam("prev") int pageNo, Map<String, Object> context, @RequestParam("minPrice") String minPrice, @RequestParam("maxPrice") String maxPrice) {
+        String sort = "relevancy_desc";
+
+        if (pageNo - 1 < 0)
+            return getProductResponse(keyword, sort, context,  0, minPrice, maxPrice);
+        else
+            return getProductResponse(keyword, sort, context,  pageNo - 1 , minPrice, maxPrice);
+    }
+
+    private String getProductResponse(String keyword, String sort, Map<String,Object> context, int page, String minPrice, String maxPrice) {
 
         // If no search term is inputted
         if (keyword == "") {
@@ -84,7 +100,7 @@ public class ApiController {
         }
 
         // Create URL for Connexity API, then call API and grab response
-        String url = createProductInfoRequestUrl(keyword, sort, minPrice, maxPrice);
+        String url = createProductInfoRequestUrl(keyword, sort, minPrice, maxPrice, page);
         response = restTemplate.getForEntity(url, ProductResponse.class).getBody();
 
         ArrayList<ProductResponse.Product> prs = new ArrayList<>();
@@ -92,21 +108,22 @@ public class ApiController {
         for (int i = 0; i != response.products.product.size(); i++) {
             prs.add(response.products.product.get(i));
         }
+        context.put("products", prs);
+        context.put("message", response.products);
+        context.put("searchTerm", keyword);
+        context.put("pageNo", page);
 
         if (prs.size() == 0) {
             context.put("message", "No results found.");
             return "dynamicSearch";
         }
 
-        // context.put("message", response)
-        context.put("message","");
         context.put("products", prs);
-
         return "dynamicSearch";
     }
 
-    private String createProductInfoRequestUrl(String keyword, String sort, String minPrice, String maxPrice) {
-        // Connexity API requires price paramter to be in units of cents
+    private String createProductInfoRequestUrl(String keyword, String sort, String minPrice, String maxPrice, int page) {
+        // Connexity API requires price parameter to be in units of cents
         // If prices are empty, set the values to default (min = 0, max = 10,000)
         if (minPrice == "")
             minPrice = "0";
@@ -125,7 +142,7 @@ public class ApiController {
 
         // Create the URL for Connexity API
         String url = "http://catalog.bizrate.com/services/catalog/v1/api/product?apiKey="
-                + apiKey + "&publisherId=" + publisherId + "&keyword=" + keyword + "&format=json" + "&sort=" + sort + "&minPrice=" + minPrice + "&maxPrice=" + maxPrice;
+                + apiKey + "&publisherId=" + publisherId + "&keyword=" + keyword + "&format=json" + "&sort=" + sort + "&minPrice=" + minPrice + "&maxPrice=" + maxPrice + "&start=" + Integer.toString(page);
         return url;
     }
 }
