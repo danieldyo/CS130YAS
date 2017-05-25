@@ -37,34 +37,21 @@ public class ApiController {
     }
 
     @RequestMapping("/search")
-    public String search(@RequestParam("keyword") String keyword, Map<String, Object> context, @RequestParam("minPrice") String minPrice, @RequestParam("maxPrice") String maxPrice) {
-        String sort = "relevancy_desc";
+    public String search(@RequestParam("keyword") String keyword, Map<String, Object> context, @RequestParam("minPrice") String minPrice, @RequestParam("maxPrice") String maxPrice, @RequestParam("sort") String sort) {
+        //String sort = "relevancy_desc";
 
-        return getProductResponse(keyword, sort, context, 0,minPrice, maxPrice);
-    }
-
-    @RequestMapping(value = "/searchAsc")
-    public String searchAsc(@RequestParam("keyword") String keyword, Map<String, Object> context, @RequestParam("minPrice") String minPrice, @RequestParam("maxPrice") String maxPrice) {
-        String sort = "price_asc";
-
-        return getProductResponse(keyword, sort, context, 0, minPrice, maxPrice);
-    }
-
-    @RequestMapping("/searchDesc")
-    public String searchDesc(@RequestParam("keyword") String keyword, Map<String, Object> context, @RequestParam("minPrice") String minPrice, @RequestParam("maxPrice") String maxPrice) {
-        String sort = "price_desc";
         return getProductResponse(keyword, sort, context, 0,minPrice, maxPrice);
     }
 
     @RequestMapping("/nextPage")
-    public String nextPage(@RequestParam("keyword") String keyword, @RequestParam("next") int pageNo, Map<String, Object> context, @RequestParam("minPrice") String minPrice, @RequestParam("maxPrice") String maxPrice) {
-        String sort = "relevancy_desc";
+    public String nextPage(@RequestParam("keyword") String keyword, @RequestParam("next") int pageNo, Map<String, Object> context, @RequestParam("minPrice") String minPrice, @RequestParam("maxPrice") String maxPrice, @RequestParam("sort") String sort) {
+        //String sort = "relevancy_desc";
         return getProductResponse(keyword, sort, context,  pageNo + 1 , minPrice, maxPrice);
     }
 
     @RequestMapping("/prevPage")
-    public String prevPage(@RequestParam("keyword") String keyword, @RequestParam("prev") int pageNo, Map<String, Object> context, @RequestParam("minPrice") String minPrice, @RequestParam("maxPrice") String maxPrice) {
-        String sort = "relevancy_desc";
+    public String prevPage(@RequestParam("keyword") String keyword, @RequestParam("prev") int pageNo, Map<String, Object> context, @RequestParam("minPrice") String minPrice, @RequestParam("maxPrice") String maxPrice, @RequestParam("sort") String sort) {
+        //String sort = "relevancy_desc";
 
         if (pageNo - 1 < 0)
             return getProductResponse(keyword, sort, context,  0, minPrice, maxPrice);
@@ -80,6 +67,7 @@ public class ApiController {
             context.put("searchTerm", "");
             context.put("maxPrice", "");
             context.put("minPrice", "");
+            context.put("sort", "relevancy_desc");
             return "dynamicSearch";
         }
 
@@ -89,6 +77,7 @@ public class ApiController {
         context.put("searchTerm", keyword);
         context.put("maxPrice", maxPrice);
         context.put("minPrice", minPrice);
+        context.put("sort", sort);
 
 
         // Validate price strings
