@@ -8,6 +8,10 @@ function logData() {
 	});
 }
 
+function productSearchInitial() {
+    $('#productSearch').attr('action','/api/searchInitial');
+}
+
 function productSearch() {
     $('#productSearch').attr('action','/api/search');
 }
