@@ -32,27 +32,23 @@ public class ApiController {
     @RequestMapping("/search")
     public String search(@RequestParam("keyword") String keyword, Map<String, Object> context) {
         String sort = "relevancy_desc";
-        System.out.println("1");
         return getProductResponse(keyword, sort, context);
     }
 
     @RequestMapping(value = "/searchAsc")
     public String searchAsc(@RequestParam("keyword") String keyword, Map<String, Object> context) {
         String sort = "price_asc";
-        System.out.println("2");
         return getProductResponse(keyword, sort, context);
     }
 
     @RequestMapping("/searchDesc")
     public String searchDesc(@RequestParam("keyword") String keyword, Map<String, Object> context) {
         String sort = "price_desc";
-        System.out.println("3");
         return getProductResponse(keyword, sort, context);
     }
 
     @RequestMapping("/searchId")
     public String IdSearch(@RequestParam("id") String id, Map<String, Object> context) {
-        System.out.println("4");
         return getIdResponse(id, context);
 
     }
@@ -108,8 +104,6 @@ public class ApiController {
         String url = createProductIdRequestUrl(id);
         response = restTemplate.getForEntity(url, OfferResponse.class).getBody();
 
-        System.out.println(response);
-
         ArrayList<OfferResponse.Offer> prs = new ArrayList<>();
 
         for (int i = 0; i != response.offers.offer.size(); i++) {
@@ -124,11 +118,6 @@ public class ApiController {
             return "itemPage";
         }
 
-
-
-
-        //context.put("products", prs);
-        //context.put("message", id);
         return "itemPage";
     }
 
