@@ -1,5 +1,6 @@
 package com.connexity.cs130.controller;
 
+import com.connexity.cs130.model.OfferResponse;
 import com.connexity.cs130.model.ProductResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -31,29 +32,30 @@ public class ApiController {
     @RequestMapping("/search")
     public String search(@RequestParam("keyword") String keyword, Map<String, Object> context) {
         String sort = "relevancy_desc";
-
+        System.out.println("1");
         return getProductResponse(keyword, sort, context);
     }
 
     @RequestMapping(value = "/searchAsc")
     public String searchAsc(@RequestParam("keyword") String keyword, Map<String, Object> context) {
         String sort = "price_asc";
-
+        System.out.println("2");
         return getProductResponse(keyword, sort, context);
     }
 
     @RequestMapping("/searchDesc")
     public String searchDesc(@RequestParam("keyword") String keyword, Map<String, Object> context) {
         String sort = "price_desc";
+        System.out.println("3");
         return getProductResponse(keyword, sort, context);
     }
 
-    /*
-    @RequestMapping("/searchUPC")
-    public String upcSearch(@RequestParam("upc") String upc, Map<String, Object> context) {
-        return getUPCResponse(upc, context);
+    @RequestMapping("/searchId")
+    public String IdSearch(@RequestParam("id") String id, Map<String, Object> context) {
+        System.out.println("4");
+        return getIdResponse(id, context);
+
     }
-    */
 
     private String getProductResponse(String keyword, String sort, Map<String,Object> context) {
 
@@ -87,32 +89,6 @@ public class ApiController {
         return "dynamicSearch";
     }
 
-/*
-    private String getUPCResponse(String upc, Map<String,Object> context) {
-        ProductResponse response;
-
-        String url = createProductUPCRequestUrl(upc);
-        response = restTemplate.getForEntity(url, ProductResponse.class).getBody();
-
-        ArrayList<ProductResponse.Product> prs = new ArrayList<>();
-
-        for (int i = 0; i != response.products.product.size(); i++) {
-            prs.add(response.products.product.get(i));
-        }
-
-        context.put("products", prs);
-        context.put("message", response);
-
-        if (prs.size() == 0) {
-            context.put("message", "Display 404 Page");
-            return "itemPage";
-        }
-
-        context.put("products", prs);
-        context.put("message", "");
-        return "itemPage";
-    }
-*/
 
     private String createProductInfoRequestUrl(String keyword, String sort) {
         String url = "http://catalog.bizrate.com/services/catalog/v1/api/product?apiKey="
@@ -120,11 +96,40 @@ public class ApiController {
         return url;
     }
 
-    /*
-    private String createProductUPCRequestUrl(String upc) {
+
+    private String createProductIdRequestUrl(String id) {
         String url = "http://catalog.bizrate.com/services/catalog/v1/api/product?apiKey="
-                + apiKey + "&publisherId=" + publisherId + "&=productId=" + upc + "&=productIdType=UPC";
+                + apiKey + "&publisherId=" + publisherId + "&=productId=" + id + "&=productIdType=SZOID";
         return url;
     }
-    */
+
+    private String getIdResponse(String id, Map<String,Object> context) {
+        OfferResponse response;
+        String url = createProductIdRequestUrl(id);
+        response = restTemplate.getForEntity(url, OfferResponse.class).getBody();
+
+        System.out.println(response);
+
+        ArrayList<OfferResponse.Offer> prs = new ArrayList<>();
+
+        for (int i = 0; i != response.offers.offer.size(); i++) {
+            prs.add(response.offers.offer.get(i));
+        }
+
+        context.put("products", prs);
+        context.put("message", id);
+
+        if (prs.size() == 0) {
+            context.put("message", "Display 404 Page");
+            return "itemPage";
+        }
+
+
+
+
+        //context.put("products", prs);
+        //context.put("message", id);
+        return "itemPage";
+    }
+
 }

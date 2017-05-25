@@ -41,6 +41,12 @@ img {
     font-size: 24px;
 }
 
+#idbox {
+    width: 50%;
+    height: 40px;
+    font-size: 24px;
+}
+
 .submit {
     font-family: 'Fjalla One', sans-serif;
     font-size: 24px;

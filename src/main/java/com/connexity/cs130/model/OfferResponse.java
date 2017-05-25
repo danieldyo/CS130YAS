@@ -5,27 +5,27 @@ import java.util.List;
 /**
  * Created by 161497 on 4/20/17.
  */
-public class ProductResponse {
-    public Products products;
+public class OfferResponse {
+    public Offers offers;
 
     @Override
     public String toString() {
-        return  "Products: {" + products +
+        return  "Offers: {" + offers +
                 '}';
     }
 
-    public static class Products {
-        public List<Product> product;
+    public static class Offers {
+        public List<Offer> offer;
 
         @Override
         public String toString() {
-            return "Product: {" + product +
-            '}';
+            return "Offer: {" + offer +
+                    '}';
         }
 
     }
 
-    public static class Product {
+    public static class Offer {
         public String title;
         public String description;
         public String manufacturer;

@@ -20,8 +20,7 @@ function productSearchDesc() {
     $('#productSearch').attr('action','/api/searchDesc');
 }
 
-/*
-function upcSearch() {
-    $('#productSearch').attr('action','/api/searchUPC');
+function idSearch() {
+    $('.productPage').attr('action','/api/searchId');
 }
-*/
+
