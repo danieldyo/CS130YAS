@@ -1,5 +1,6 @@
 package com.connexity.cs130.controller;
 
+import com.connexity.cs130.model.OfferResponse;
 import com.connexity.cs130.model.ProductResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -72,6 +73,11 @@ public class ApiController {
             return getProductResponse(keyword, sort, context,  pageNo - 1 , minPrice, maxPrice);
     }
 
+    @RequestMapping("/searchId")
+    public String IdSearch(@RequestParam("id") String id, Map<String, Object> context) {
+        return getIdResponse(id, context);
+    }
+
     private String getProductResponse(String keyword, String sort, Map<String,Object> context, int page, String minPrice, String maxPrice) {
 
         // If no search term is inputted
@@ -132,7 +138,7 @@ public class ApiController {
         // If price contains decimal, simply remove decimal to make value from $X.XX to XXX cents
         if (minPrice.indexOf('.') != -1)
             minPrice = minPrice.replaceAll("\\D+","");
-        // Else if price is of form $XX, change it to XX00 cents
+            // Else if price is of form $XX, change it to XX00 cents
         else
             minPrice = minPrice + "00";
         if (maxPrice.indexOf('.') != -1)
@@ -144,5 +150,35 @@ public class ApiController {
         String url = "http://catalog.bizrate.com/services/catalog/v1/api/product?apiKey="
                 + apiKey + "&publisherId=" + publisherId + "&keyword=" + keyword + "&format=json" + "&sort=" + sort + "&minPrice=" + minPrice + "&maxPrice=" + maxPrice + "&start=" + Integer.toString(page);
         return url;
+    }
+
+    private String createProductIdRequestUrl(String id) {
+        String url = "http://catalog.bizrate.com/services/catalog/v1/api/product?apiKey="
+                + apiKey + "&publisherId=" + publisherId + "&=productId=" + id + "&=productIdType=SZOID";
+        return url;
+    }
+
+    private String getIdResponse(String id, Map<String,Object> context) {
+        OfferResponse response;
+        String url = createProductIdRequestUrl(id);
+        response = restTemplate.getForEntity(url, OfferResponse.class).getBody();
+
+        System.out.println(response);
+
+        ArrayList<OfferResponse.Offer> prs = new ArrayList<>();
+
+        for (int i = 0; i != response.offers.offer.size(); i++) {
+            prs.add(response.offers.offer.get(i));
+        }
+
+        context.put("products", prs);
+        context.put("message", id);
+
+        if (prs.size() == 0) {
+            context.put("message", "Display 404 Page");
+            return "itemPage";
+        }
+
+        return "itemPage";
     }
 }

@@ -31,3 +31,8 @@ function productNextPage() {
 function productPrevPage() {
     $('#productSearch').attr('action','/api/prevPage');
 }
+
+function idSearch() {
+    $('.productPage').attr('action','/api/searchId');
+}
+
