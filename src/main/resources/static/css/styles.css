@@ -52,6 +52,16 @@ img {
     cursor: hand;
 }
 
+.pagination {
+    font-family: 'Fjalla One', sans-serif;
+    font-size: 16px;
+    background-color: lightgray;
+    border: none;
+    margin: 0;
+    padding: 10px;
+    cursor: hand;
+}
+
 .big {
     font-size: 24px;
     font-weight: bold;

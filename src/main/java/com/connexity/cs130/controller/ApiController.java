@@ -32,23 +32,39 @@ public class ApiController {
     public String search(@RequestParam("keyword") String keyword, Map<String, Object> context) {
         String sort = "relevancy_desc";
 
-        return getProductResponse(keyword, sort, context);
+        return getProductResponse(keyword, sort, 0, context);
     }
 
     @RequestMapping(value = "/searchAsc")
     public String searchAsc(@RequestParam("keyword") String keyword, Map<String, Object> context) {
         String sort = "price_asc";
 
-        return getProductResponse(keyword, sort, context);
+        return getProductResponse(keyword, sort, 0, context);
     }
 
     @RequestMapping("/searchDesc")
     public String searchDesc(@RequestParam("keyword") String keyword, Map<String, Object> context) {
         String sort = "price_desc";
-        return getProductResponse(keyword, sort, context);
+        return getProductResponse(keyword, sort, 0, context);
     }
 
-    private String getProductResponse(String keyword, String sort, Map<String,Object> context) {
+    @RequestMapping("/nextPage")
+    public String nextPage(@RequestParam("keyword") String keyword, @RequestParam("next") int pageNo, Map<String, Object> context) {
+        String sort = "relevancy_desc";
+        return getProductResponse(keyword, sort, pageNo + 1, context);
+    }
+
+    @RequestMapping("/prevPage")
+    public String prevPage(@RequestParam("keyword") String keyword, @RequestParam("prev") int pageNo, Map<String, Object> context) {
+        String sort = "relevancy_desc";
+
+        if (pageNo - 1 < 0)
+            return getProductResponse(keyword, sort, 0, context);
+        else
+            return getProductResponse(keyword, sort, pageNo - 1, context);
+    }
+
+    private String getProductResponse(String keyword, String sort, int page, Map<String,Object> context) {
 
         if (keyword == "") {
             context.put("message", "Please input a product name.");
@@ -58,7 +74,7 @@ public class ApiController {
 
         ProductResponse response;
 
-        String url = createProductInfoRequestUrl(keyword, sort);
+        String url = createProductInfoRequestUrl(keyword, sort, page);
         response = restTemplate.getForEntity(url, ProductResponse.class).getBody();
 
         ArrayList<ProductResponse.Product> prs = new ArrayList<>();
@@ -67,8 +83,9 @@ public class ApiController {
             prs.add(response.products.product.get(i));
         }
         context.put("products", prs);
-        context.put("message", response);
+        context.put("message", response.products);
         context.put("searchTerm", keyword);
+        context.put("pageNo", page);
 
         if (prs.size() == 0) {
             context.put("message", "No results found.");
@@ -76,13 +93,12 @@ public class ApiController {
         }
 
         context.put("products", prs);
-        context.put("message", "");
         return "dynamicSearch";
     }
 
-    private String createProductInfoRequestUrl(String keyword, String sort) {
+    private String createProductInfoRequestUrl(String keyword, String sort, int page) {
         String url = "http://catalog.bizrate.com/services/catalog/v1/api/product?apiKey="
-                + apiKey + "&publisherId=" + publisherId + "&keyword=" + keyword + "&format=json" + "&sort=" + sort;
+                + apiKey + "&publisherId=" + publisherId + "&keyword=" + keyword + "&format=json" + "&sort=" + sort + "&start=" + Integer.toString(page);
         return url;
     }
 }
