@@ -172,7 +172,7 @@ public class ApiController {
         }
 
         context.put("products", prs);
-        context.put("message", id);
+        context.put("message", "");
 
         if (prs.size() == 0) {
             context.put("message", "Display 404 Page");
