@@ -1,20 +1,54 @@
 package com.connexity.cs130.model;
 
-import com.connexity.cs130.model.ProductResponse.Products;
-import java.sql.Timestamp;
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
+import javax.persistence.Table;
 
-/**
- * Created by 161497 on 5/18/17.
- */
+import org.hibernate.validator.constraints.Email;
+import org.hibernate.validator.constraints.Length;
+import org.hibernate.validator.constraints.NotEmpty;
+import org.springframework.data.annotation.Transient;
+
+@Entity
+@Table(name = "user")
 public class User {
-    public String userID;
-    public String password;
-    public int watchlistID;
 
-    public User(String userID, String password, int watchlistID) {
-        this.userID = userID;
-        this.password = password;
-        this.watchlistID = watchlistID;
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "user_id")
+    private int id;
+    @Column(name = "email")
+    @Email(message = "*Please provide a valid Email")
+    @NotEmpty(message = "*Please provide an email")
+    private String email;
+    @Column(name = "password")
+    @Length(min = 5, message = "*Your password must have at least 5 characters")
+    @NotEmpty(message = "*Please provide your password")
+    @Transient
+    private String password;
+    @Column(name = "name")
+    @NotEmpty(message = "*Please provide your name")
+    private String name;
+    @Column(name = "last_name")
+    @NotEmpty(message = "*Please provide your last name")
+    private String lastName;
+    @Column(name = "active")
+    private int active;
+    @ManyToMany(cascade = CascadeType.ALL)
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getPassword() {
@@ -25,22 +59,36 @@ public class User {
         this.password = password;
     }
 
-    public int getWatchlistID() {
-        return watchlistID;
+    public String getName() {
+        return name;
     }
 
-    public void setWatchlistID(int watchlistID) {
-        this.watchlistID = watchlistID;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public String getUserID() {
-        return userID;
+    public String getLastName() {
+        return lastName;
     }
 
-    public void setUserID(String userID) {
-        this.userID = userID;
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
     }
 
+    public String getEmail() {
+        return email;
+    }
 
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public int getActive() {
+        return active;
+    }
+
+    public void setActive(int active) {
+        this.active = active;
+    }
 }
 
