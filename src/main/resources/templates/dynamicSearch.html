@@ -15,7 +15,7 @@
     <input id="searchbox" type="text" name="keyword" onsubmit="productSearch()" value="{{searchTerm}}">
     <button class="submit" onclick="productSearch()">→</button>
     <button class="submit" onclick="productSearchAsc()">$$↑</button>
-    <button class="submit" onclick="productSearchDesc()">$$↓</button>
+    <button class="submit desc" onclick="productSearchDesc()">$$↓</button>
     $ <input class="priceBox" type="text" name="minPrice" onsubmit="productSearch()" value="{{minPrice}}">
     to $ <input class="priceBox" type="text" name="maxPrice" onsubmit="productSearch()" value="{{maxPrice}}">
     <p>
@@ -30,7 +30,7 @@
   <ul>
     {{#products}}
     <li>
-        <img src="{{images.image.1}}" /> &nbsp <span class="big">{{title}}</span> &nbsp {{price}} &nbsp {{upc}} &nbsp {{id}}
+        <img src="{{images.image.1}}" /> &nbsp <span class="big">{{title}}</span> &nbsp {{price}}
         <form class="productPage">
           <input id="idbox" type="text" name="id" onsubmit="idSearch()" value="{{id}}" style="display:none">
           <button class="submit" onclick="idSearch()">→</button>

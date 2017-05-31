@@ -1,4 +1,10 @@
-@import url('https://fonts.googleapis.com/css?family=Fjalla+One|Open+Sans+Condensed:300');
+@import url('https://fonts.googleapis.com/css?family=Fjalla+One|Open+Sans+Condensed:300|Raleway');
+
+* {
+    box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+}
 
 html {
     font-family: 'Fjalla One', sans-serif;
@@ -20,11 +26,13 @@ h2 {
 
 a, a:hover, a:visited {
     color: black;
+    text-decoration: none;
 }
 
 ul {
     list-style: none;
     font-family: "Open Sans Condensed", sans-serif;
+    padding-left: 0;
 }
 
 li {
@@ -33,6 +41,29 @@ li {
 
 img {
     vertical-align: middle;
+}
+
+.col-2 {
+    width: 50%;
+    margin: 0;
+    padding: 35px;
+    float: left;
+}
+
+#product {
+    font-family: 'Raleway', sans-serif;
+    font-weight: 100;
+}
+
+#imagebox {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: white;
+    border-radius: 50%;
+    width: 350px;
+    height: 350px;
+    margin: auto;
 }
 
 #searchbox {
@@ -44,12 +75,6 @@ img {
 .priceBox {
     width: 60px;
         }
-
-#idbox {
-    width: 50%;
-    height: 40px;
-    font-size: 24px;
-}
 
 .submit {
     font-family: 'Fjalla One', sans-serif;
@@ -100,4 +125,45 @@ img {
     width: 75%;
     margin: 0 auto;
     overflow: hidden;
+}
+
+.down {
+    background-color: pink;
+}
+
+/*Based off the tutorial from https://www.w3schools.com/howto/howto_js_tabs.asp*/
+
+div.tab {
+    overflow: hidden;
+    font-family: 'Raleway', sans-serif;
+    padding-top: 35px;
+}
+
+/* Style the buttons inside the tab */
+div.tab button {
+    float: left;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    padding: 8px 16px;
+    background-color: transparent;
+    font-family: inherit;
+    border-bottom: 3px solid transparent;
+    transition: 0.2s ease-out;
+}
+
+/* Change background color of buttons on hover */
+div.tab button:hover {
+    border-bottom: 3px solid aquamarine;
+}
+
+/* Create an active/current tablink class */
+div.tab button.active {
+    border-bottom: 3px solid aquamarine;
+}
+
+/* Style the tab content */
+.tabcontent {
+    display: none;
+    padding: 6px 12px;
 }
