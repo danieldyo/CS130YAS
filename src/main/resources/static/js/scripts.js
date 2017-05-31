@@ -1,4 +1,4 @@
-function logData() {
+/*function logData() {
 	fetch("/api/proxy")
 	.then(response => {
 		response.json().then(data => {
@@ -6,24 +6,28 @@ function logData() {
 			//alert("See console for logged object!")
 		});
 	});
-}
+}*/
 
 function productSearchInitial() {
     $('#productSearch').attr('action','/api/searchInitial');
 }
 
 function productSearch() {
+    $("#sort").val("relevancy_search");
     $('#productSearch').attr('action','/api/search');
 }
 
 function productSearchAsc() {
-    $('#productSearch').attr('action','/api/searchAsc');
+    $("#sort").val("price_asc");
+    $('#productSearch').attr('action','/api/search');
 }
 
 function productSearchDesc() {
     $('#productSearch').attr('action','/api/searchDesc')
 
     $('.desc').addClass('down');
+    $("#sort").val("price_desc");
+    $('#productSearch').attr('action','/api/search');
 }
 
 function productNextPage() {
