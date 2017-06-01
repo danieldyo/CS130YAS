@@ -18,7 +18,10 @@
         <input id="searchbox" type="text" name="keyword" onsubmit="productSearch()">
         <button class="submit" onclick="productSearch()">→</button>
         <button class="submit" onclick="productSearchAsc()">$$↑</button>
-        <button class="submit" onclick="productSearchDesc()">$$↓</button>
+        <button class="submit desc" onclick="productSearchDesc()">$$↓</button>
+        $ <input class="priceBox" type="text" name="minPrice" onsubmit="productSearch()">
+        to $ <input class="priceBox" type="text" name="maxPrice" onsubmit="productSearch()">
+        <input type="hidden" id="sort" name="sort">
     </form>
 </div>
 
