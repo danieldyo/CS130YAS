@@ -1,17 +1,28 @@
 package com.connexity.cs130.controller;
 
+import com.connexity.cs130.amazon.SignedRequestsHelper;
 import com.connexity.cs130.model.OfferResponse;
 import com.connexity.cs130.model.ProductResponse;
+import com.connexity.cs130.model.ItemLookupResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpMethod;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Map;
+
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+
+import org.w3c.dom.Document;
+import org.w3c.dom.Node;
 
 /**
  * Created by 161497 on 4/20/17.
@@ -28,6 +39,15 @@ public class ApiController {
 
     @Value("${publisher.id}")
     Long publisherId;
+
+    @Value("${amazon.accesskey}")
+    String amazonAccessKey;
+
+    @Value("${amazon.secretkey}")
+    String amazonSecretKey;
+
+    @Value("${amazon.associatetag}")
+    String amazonAssociateTag;
 
 
     @RequestMapping("/searchInitial")
@@ -96,6 +116,7 @@ public class ApiController {
 
         // Create URL for Connexity API, then call API and grab response
         String url = createProductInfoRequestUrl(keyword, sort, minPrice, maxPrice, page);
+        getAmazonResponse(context, "031398155409");
         response = restTemplate.getForEntity(url, ProductResponse.class).getBody();
 
         ArrayList<ProductResponse.Product> prs = new ArrayList<>();
@@ -139,6 +160,104 @@ public class ApiController {
         String url = "http://catalog.bizrate.com/services/catalog/v1/api/product?apiKey="
                 + apiKey + "&publisherId=" + publisherId + "&keyword=" + keyword + "&format=json" + "&sort=" + sort + "&minPrice=" + minPrice + "&maxPrice=" + maxPrice + "&start=" + Integer.toString(page);
         return url;
+    }
+
+    public void getAmazonResponse(Map<String,Object> context, String upcID) {
+        /*
+         * Use one of the following end-points, according to the region you are
+         * interested in:
+         *
+         *      US: ecs.amazonaws.com
+         *      CA: ecs.amazonaws.ca
+         *      UK: ecs.amazonaws.co.uk
+         *      DE: ecs.amazonaws.de
+         *      FR: ecs.amazonaws.fr
+         *      JP: ecs.amazonaws.jp
+         *
+         */
+        final String ENDPOINT = "ecs.amazonaws.com";
+
+        /*
+         * Set up the signed requests helper
+         */
+        SignedRequestsHelper helper;
+        try {
+            helper = SignedRequestsHelper.getInstance(ENDPOINT, amazonAccessKey, amazonSecretKey);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return;
+        }
+
+        String requestUrl;
+        String lowestNewPrice = "";
+        String lowestUsedPrice = "";
+        String lowestRefurbishedPrice = "";
+        String amazonURL = "";
+
+        /* The helper can sign requests in two forms - map form and string form */
+
+        /*
+         * Here is an example in map form, where the request parameters are stored in a map.
+         */
+        System.out.println("Map form example:");
+        Map<String, String> params = new HashMap<String, String>();
+        params.put("Service", "AWSECommerceService");
+        params.put("AssociateTag", amazonAssociateTag);
+        params.put("Operation", "ItemLookup");
+        params.put("IdType", "UPC");
+        params.put("SearchIndex", "All");
+        params.put("ItemId", upcID);
+        params.put("ResponseGroup", "Offers");
+
+        requestUrl = helper.sign(params);
+        System.out.println("Signed Request is \"" + requestUrl + "\"");
+
+        try {
+            DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
+            DocumentBuilder db = dbf.newDocumentBuilder();
+            Document doc = db.parse(requestUrl);
+            Node lowestNewPriceNode = doc.getElementsByTagName("LowestNewPrice").item(0);
+            Node lowestUsedPriceNode = doc.getElementsByTagName("LowestUsedPrice").item(0);
+            Node lowestRefurbishedPriceNode = doc.getElementsByTagName("LowestRefurbishedPrice").item(0);
+            Node amazonURLNode = doc.getElementsByTagName("MoreOffersUrl").item(0);
+            if (lowestNewPriceNode != null) {
+                lowestNewPrice = lowestNewPriceNode.getTextContent();
+                lowestNewPrice = lowestNewPrice.substring(lowestNewPrice.indexOf("$"));
+                context.put("amazonNewPrice", lowestNewPrice);
+            }
+            else {
+                context.put("amazonNewPrice", "");
+            }
+            if (lowestUsedPriceNode != null) {
+                lowestUsedPrice = lowestUsedPriceNode.getTextContent();
+                lowestUsedPrice = lowestUsedPrice.substring(lowestUsedPrice.indexOf("$"));
+                context.put("amazonUsedPrice", lowestUsedPrice);
+            }
+            else {
+                context.put("amazonUsedPrice", "");
+            }
+            if (lowestRefurbishedPriceNode != null) {
+                lowestRefurbishedPrice = lowestRefurbishedPriceNode.getTextContent();
+                lowestRefurbishedPrice = lowestRefurbishedPrice.substring(lowestRefurbishedPrice.indexOf("$"));
+                context.put("amazonRefurbishedPrice", lowestRefurbishedPrice);
+            }
+            else {
+                context.put("amazonRefurbishedPrice", "");
+            }
+            if (amazonURLNode != null) {
+                amazonURL = amazonURLNode.getTextContent();
+                context.put("amazonURL", amazonURL);
+            }
+            else {
+                context.put("amazonURL", "");
+            }
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+        System.out.println(lowestNewPrice);
+        System.out.println(lowestUsedPrice);
+        System.out.println(lowestRefurbishedPrice);
+        System.out.println(amazonURL);
     }
 
     private String createProductIdRequestUrl(String id) {
