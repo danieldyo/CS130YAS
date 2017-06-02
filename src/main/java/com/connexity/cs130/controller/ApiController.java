@@ -3,16 +3,12 @@ package com.connexity.cs130.controller;
 import com.connexity.cs130.amazon.SignedRequestsHelper;
 import com.connexity.cs130.model.OfferResponse;
 import com.connexity.cs130.model.ProductResponse;
-import com.connexity.cs130.model.ItemLookupResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.client.RestTemplate;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpMethod;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -116,7 +112,6 @@ public class ApiController {
 
         // Create URL for Connexity API, then call API and grab response
         String url = createProductInfoRequestUrl(keyword, sort, minPrice, maxPrice, page);
-        getAmazonResponse(context, "031398155409");
         response = restTemplate.getForEntity(url, ProductResponse.class).getBody();
 
         ArrayList<ProductResponse.Product> prs = new ArrayList<>();
@@ -163,6 +158,20 @@ public class ApiController {
     }
 
     public void getAmazonResponse(Map<String,Object> context, String upcID) {
+        String requestUrl;
+        String lowestNewPrice = "";
+        String lowestUsedPrice = "";
+        String lowestRefurbishedPrice = "";
+        String amazonURL = "";
+
+        if (upcID == "N/A") {
+            context.put("amazonNewPrice", "");
+            context.put("amazonUsedPrice", "");
+            context.put("amazonRefurbishedPrice", "");
+            context.put("amazonURL", "");
+            return;
+        }
+
         /*
          * Use one of the following end-points, according to the region you are
          * interested in:
@@ -187,12 +196,6 @@ public class ApiController {
             e.printStackTrace();
             return;
         }
-
-        String requestUrl;
-        String lowestNewPrice = "";
-        String lowestUsedPrice = "";
-        String lowestRefurbishedPrice = "";
-        String amazonURL = "";
 
         /* The helper can sign requests in two forms - map form and string form */
 
@@ -281,6 +284,9 @@ public class ApiController {
 
         context.put("products", prs);
         context.put("message", "");
+
+        String upc = response.offers.offer.get(0).upc;
+        getAmazonResponse(context, upc);
 
         if (prs.size() == 0) {
             context.put("message", "Display 404 Page");
