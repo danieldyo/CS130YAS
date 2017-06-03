@@ -1,35 +1,27 @@
 <!DOCTYPE html>
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml" >
 <head>
-    <title>Registration Form</title>
+    <title>YAS | Register</title>
     <link rel="stylesheet" type="text/css" href="/css/styles.css" />
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="/css/login.css" />
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 </head>
 <body>
-<form action="/" method="get">
-    <button class="btn btn-md btn-warning btn-block" type="Submit">Go To Login Page</button>
-</form>
-
-<div class="container">
-    <div class="row">
-        <div class="col-md-6 col-md-offset-3">
-            <form autocomplete="off" action="#" action="/registration"
-                  object="user" method="post" class="form-horizontal"
-                  role="form">
-                <h2>Registration Form</h2>
-                <input type="text" name="name" placeholder="Name"
-                       class="form-control" /> <br>
-                <input type="text" name="lastName"
-                       placeholder="Last Name" class="form-control" /> <br>
-                <input type="text" name="email" placeholder="Email"
-                       class="form-control" /> <br>
-                <input type="password" name="password"
-                       placeholder="Password" class="form-control" /> <br>
-                <button type="submit" class="btn btn-primary btn-block">Register User</button>
-            </form>
-        </div>
+<div class="login-container">
+    <div>
+        <form autocomplete="off" action="#" action="/registration"
+              object="user" method="post" class="form-horizontal"
+              role="form">
+            <input type="text" name="name" placeholder="Name" /> <br>
+            <input type="text" name="lastName" placeholder="Last Name"/> <br>
+            <input type="text" name="email" placeholder="Email"/> <br>
+            <input type="password" name="password" placeholder="Password"  /> <br>
+            <button type="submit" class="account-submit">Create an Account</button>
+        </form>
+        <p><span class="smaller">
+        Already have an account? Login <a href="/login"><u>here.</u></a>
+    </span>
+        </p>
     </div>
 </div>
 

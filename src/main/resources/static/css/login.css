@@ -1,0 +1,46 @@
+*:focus {
+    outline: none;
+}
+
+input {
+    font-family: "Open Sans Condensed", sans-serif;
+    font-size: 2em;
+    width: 75%;
+    background-color: transparent;
+    padding: 5px;
+    margin: 5px;
+    border-top: none;
+    border-right: none;
+    border-left: none;
+    border-bottom: 1px solid whitesmoke;
+}
+
+.account-submit {
+    font-family: "Open Sans Condensed", sans-serif;
+    font-size: 1.5em;
+    width: 75%;
+    margin-top: 30px;
+    padding: 5px;
+    border: 1px solid lightgray;
+    background-color: whitesmoke;
+    cursor: hand;
+    z-index: 2;
+}
+
+.login-container {
+    position: absolute;
+    margin: auto;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    max-width: 400px;
+    max-height: 400px;
+    text-align: center;
+}
+
+.smaller {
+    font-family: "Open Sans Condensed", sans-serif;
+    font-weight: lighter;
+    font-size: 1em;
+}
