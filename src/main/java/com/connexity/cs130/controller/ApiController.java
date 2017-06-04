@@ -3,13 +3,18 @@ package com.connexity.cs130.controller;
 import com.connexity.cs130.amazon.SignedRequestsHelper;
 import com.connexity.cs130.model.OfferResponse;
 import com.connexity.cs130.model.ProductResponse;
+import com.connexity.cs130.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.client.RestTemplate;
+import com.connexity.cs130.model.User;
+import com.connexity.cs130.service.UserService;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -40,7 +45,6 @@ import com.connexity.cs130.service.UserService;
  * Created by 161497 on 4/20/17.
  */
 @Controller
-@RequestMapping("/api")
 public class ApiController {
 
     @Autowired
@@ -64,6 +68,12 @@ public class ApiController {
     @Value("${amazon.associatetag}")
     String amazonAssociateTag;
 
+    @RequestMapping("/")
+    public String landing(Map<String, Object> context) {
+
+        loginToggle(context);
+        return "index";
+    }
 
     @RequestMapping("/searchInitial")
     public String search(@RequestParam("keyword") String keyword, Map<String, Object> context) {
@@ -188,6 +198,8 @@ public class ApiController {
 
     private String getProductResponse(String keyword, String sort, Map<String,Object> context, int page, String minPrice, String maxPrice) {
 
+        loginToggle(context);
+
         // If no search term is inputted
         if (keyword == "") {
             context.put("message", "Please input a product name.");
@@ -224,15 +236,17 @@ public class ApiController {
         for (int i = 0; i != response.products.product.size(); i++) {
             prs.add(response.products.product.get(i));
         }
+
+        if (prs.size() == 0) {
+            context.put("message.totalResults", "0");
+            context.put("pageNo", "0");
+            return "dynamicSearch";
+        }
+
         context.put("products", prs);
         context.put("message", response.products);
         context.put("searchTerm", keyword);
         context.put("pageNo", page);
-
-        if (prs.size() == 0) {
-            context.put("message", "No results found.");
-            return "dynamicSearch";
-        }
 
         context.put("products", prs);
         return "dynamicSearch";
@@ -260,6 +274,57 @@ public class ApiController {
         String url = "http://catalog.bizrate.com/services/catalog/v1/api/product?apiKey="
                 + apiKey + "&publisherId=" + publisherId + "&keyword=" + keyword + "&format=json" + "&sort=" + sort + "&minPrice=" + minPrice + "&maxPrice=" + maxPrice + "&start=" + Integer.toString(page);
         return url;
+    }
+
+    public void ebayTry(Map<String,Object> context, String url, String contextName) {
+
+        String lowestPrice = "";
+        String ebayURL = "";
+
+        try {
+            DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
+            DocumentBuilder db = dbf.newDocumentBuilder();
+            Document doc = db.parse(url);
+            Node lowestNewPriceNode = doc.getElementsByTagName("convertedCurrentPrice").item(0);
+            Node itemURLNode = doc.getElementsByTagName("viewItemURL").item(0);
+
+            if (lowestNewPriceNode != null) {
+                lowestPrice = lowestNewPriceNode.getTextContent();
+                context.put(contextName, "$"+ lowestPrice);
+            }
+            else {
+                context.put(contextName, "");
+            }
+
+            if (itemURLNode != null) {
+                ebayURL = itemURLNode.getTextContent();
+                context.put("ebayURL", ebayURL);
+            }
+            else {
+                context.put("ebayURL", "");
+            }
+
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public void getEbayResponse(Map<String,Object> context, String upcID) {
+
+        if (upcID == "N/A") {
+            context.put("ebayNewPrice", "");
+            context.put("ebayUsedPrice", "");
+            context.put("ebayRefurbishedPrice", "");
+            context.put("ebayURL", "");
+            return;
+        }
+
+        String urlNew = createEbayRequestUrl(upcID, "new");
+        String urlUsed = createEbayRequestUrl(upcID, "used");
+        String urlRefurb = createEbayRequestUrl(upcID, "refurbished");
+        ebayTry(context, urlNew, "ebayNewPrice");
+        ebayTry(context, urlUsed, "ebayUsedPrice");
+        ebayTry(context, urlRefurb, "ebayRefurbishedPrice");
     }
 
     public void getAmazonResponse(Map<String,Object> context, String upcID) {
@@ -307,7 +372,7 @@ public class ApiController {
         /*
          * Here is an example in map form, where the request parameters are stored in a map.
          */
-        System.out.println("Map form example:");
+        //System.out.println("Map form example:");
         Map<String, String> params = new HashMap<String, String>();
         params.put("Service", "AWSECommerceService");
         params.put("AssociateTag", amazonAssociateTag);
@@ -318,7 +383,7 @@ public class ApiController {
         params.put("ResponseGroup", "Offers");
 
         requestUrl = helper.sign(params);
-        System.out.println("Signed Request is \"" + requestUrl + "\"");
+        //System.out.println("Signed Request is \"" + requestUrl + "\"");
 
         try {
             DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
@@ -362,10 +427,35 @@ public class ApiController {
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
-        System.out.println(lowestNewPrice);
-        System.out.println(lowestUsedPrice);
-        System.out.println(lowestRefurbishedPrice);
-        System.out.println(amazonURL);
+        //System.out.println(lowestNewPrice);
+        //System.out.println(lowestUsedPrice);
+        //System.out.println(lowestRefurbishedPrice);
+        //System.out.println(amazonURL);
+    }
+
+    public String createEbayRequestUrl(String upc, String condition) {
+        String conditionID = "";
+        switch (condition) {
+            case "new":
+                conditionID = "1000";
+                break;
+            case "refurbished":
+                conditionID = "2000";
+                break;
+            case "used":
+                conditionID = "3000";
+                break;
+        }
+
+        String url = "http://svcs.ebay.com/services/search/FindingService/v1?OPERATION-NAME="  +
+        "findItemsByKeywords&SERVICE-VERSION=1.12.0&SECURITY-APPNAME=" +
+        "DanielOn-cs130yas-PRD-569e0185b-ac847d8c&RESPONSE-DATA-FORMAT=" +
+        "XML&REST-PAYLOAD&paginationInput.entriesPerPage=10&keywords=" + upc  +
+        "&itemFilter(0).name=ListingType&itemFilter(0).value(0)=FixedPrice&itemFilter(0).value(1)=" +
+        "StoreInventory&itemFilter(1).name=Condition&itemFilter(1).value=" + conditionID +
+        "&sortOrder=PricePlusShippingLowest";
+
+        return url;
     }
 
     private String createProductIdRequestUrl(String id) {
@@ -380,7 +470,9 @@ public class ApiController {
         String url = createProductIdRequestUrl(id);
         response = restTemplate.getForEntity(url, OfferResponse.class).getBody();
 
-        System.out.println(response);
+        //System.out.println(response);
+
+        loginToggle(context);
 
         ArrayList<OfferResponse.Offer> prs = new ArrayList<>();
 
@@ -393,6 +485,7 @@ public class ApiController {
 
         String upc = response.offers.offer.get(0).upc;
         getAmazonResponse(context, upc);
+        getEbayResponse(context, upc);
 
         if (prs.size() == 0) {
             context.put("message", "Display 404 Page");
@@ -400,5 +493,17 @@ public class ApiController {
         }
 
         return "itemPage";
+    }
+
+    private void loginToggle(Map<String, Object> context) {
+
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        User user = userService.findUserByEmail(auth.getName());
+
+        if (user == null)
+            context.put("show-login", true);
+        else
+            context.put("username", user.getName());
+
     }
 }
