@@ -11,6 +11,14 @@
     </head>
 
 <body>
+<div id="login">
+    {{#show-login}}
+    <a href="/login">Login</a>
+    {{/show-login}}
+    {{#username}}
+    <button id="profile">Hello, {{.}}</button> | <a href="/logout">Logout</a>
+    {{/username}}
+</div>
 
 <div id="searchbar">
     <h2><a href="/" style="text-decoration:none">How much is my stuff worth?</a></h2>

@@ -9,37 +9,37 @@
 }*/
 
 function productSearchInitial() {
-    $('#productSearch').attr('action','/api/searchInitial');
+    $('#productSearch').attr('action','/searchInitial');
 }
 
 function productSearch() {
     $("#sort").val("relevancy_search");
-    $('#productSearch').attr('action','/api/search');
+    $('#productSearch').attr('action','/search');
 }
 
 function productSearchAsc() {
     $("#sort").val("price_asc");
-    $('#productSearch').attr('action','/api/search');
+    $('#productSearch').attr('action','/search');
 }
 
 function productSearchDesc() {
-    $('#productSearch').attr('action','/api/searchDesc')
+    $('#productSearch').attr('action','/searchDesc')
 
     $('.desc').addClass('down');
     $("#sort").val("price_desc");
-    $('#productSearch').attr('action','/api/search');
+    $('#productSearch').attr('action','/search');
 }
 
 function productNextPage() {
-    $('#productSearch').attr('action','/api/nextPage');
+    $('#productSearch').attr('action','/nextPage');
 }
 
 function productPrevPage() {
-    $('#productSearch').attr('action','/api/prevPage');
+    $('#productSearch').attr('action','/prevPage');
 }
 
 function idSearch() {
-    $('.productPage').attr('action','/api/searchId');
+    $('.productPage').attr('action','/searchId');
 }
 
 /*Based off the tutorial from https://www.w3schools.com/howto/howto_js_tabs.asp*/

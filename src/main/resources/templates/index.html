@@ -6,6 +6,15 @@
   <link rel="stylesheet" type="text/css" href="/css/styles.css">
 </head>
 
+<div id="login">
+  {{#show-login}}
+  <a href="/login">Login</a>
+  {{/show-login}}
+  {{#username}}
+  <button id="profile">Hello, {{.}}</button> | <a href="/logout">Logout</a>
+  {{/username}}
+</div>
+
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 <body>
 

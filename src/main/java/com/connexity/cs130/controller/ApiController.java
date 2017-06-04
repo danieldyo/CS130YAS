@@ -3,12 +3,17 @@ package com.connexity.cs130.controller;
 import com.connexity.cs130.amazon.SignedRequestsHelper;
 import com.connexity.cs130.model.OfferResponse;
 import com.connexity.cs130.model.ProductResponse;
+import com.connexity.cs130.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.client.RestTemplate;
+import com.connexity.cs130.model.User;
+import com.connexity.cs130.service.UserService;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -24,11 +29,13 @@ import org.w3c.dom.Node;
  * Created by 161497 on 4/20/17.
  */
 @Controller
-@RequestMapping("/api")
 public class ApiController {
 
     @Autowired
     RestTemplate restTemplate;
+
+    @Autowired
+    UserService userService;
 
     @Value("${api.key}")
     String apiKey;
@@ -45,6 +52,12 @@ public class ApiController {
     @Value("${amazon.associatetag}")
     String amazonAssociateTag;
 
+    @RequestMapping("/")
+    public String landing(Map<String, Object> context) {
+
+        loginToggle(context);
+        return "index";
+    }
 
     @RequestMapping("/searchInitial")
     public String search(@RequestParam("keyword") String keyword, Map<String, Object> context) {
@@ -82,6 +95,8 @@ public class ApiController {
     }
 
     private String getProductResponse(String keyword, String sort, Map<String,Object> context, int page, String minPrice, String maxPrice) {
+
+        loginToggle(context);
 
         // If no search term is inputted
         if (keyword == "") {
@@ -274,7 +289,9 @@ public class ApiController {
         String url = createProductIdRequestUrl(id);
         response = restTemplate.getForEntity(url, OfferResponse.class).getBody();
 
-        System.out.println(response);
+        //System.out.println(response);
+
+        loginToggle(context);
 
         ArrayList<OfferResponse.Offer> prs = new ArrayList<>();
 
@@ -294,5 +311,17 @@ public class ApiController {
         }
 
         return "itemPage";
+    }
+
+    private void loginToggle(Map<String, Object> context) {
+
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        User user = userService.findUserByEmail(auth.getName());
+
+        if (user == null)
+            context.put("show-login", true);
+        else
+            context.put("username", user.getName());
+
     }
 }
