@@ -280,6 +280,7 @@ public class ApiController {
 
         String lowestPrice = "";
         String ebayURL = "";
+        String imageURL = "";
 
         try {
             DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
@@ -287,6 +288,7 @@ public class ApiController {
             Document doc = db.parse(url);
             Node lowestNewPriceNode = doc.getElementsByTagName("convertedCurrentPrice").item(0);
             Node itemURLNode = doc.getElementsByTagName("viewItemURL").item(0);
+            Node itemImageNode = doc.getElementsByTagName("galleryURL").item(0);
 
             if (lowestNewPriceNode != null) {
                 lowestPrice = lowestNewPriceNode.getTextContent();
@@ -302,6 +304,14 @@ public class ApiController {
             }
             else {
                 context.put("ebayURL", "");
+            }
+
+            if (itemImageNode != null) {
+                imageURL = itemImageNode.getTextContent();
+                context.put("ebayImage", imageURL);
+            }
+            else {
+                context.put("ebayImage", "");
             }
 
         } catch (Exception e) {
