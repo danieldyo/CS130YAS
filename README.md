@@ -29,5 +29,5 @@ To create table for the wishlist
 mysql -u cs130 -p
 
 mysql> use yas;
-mysql> CREATE TABLE wishlist (userID int, productID varchar(20));
+mysql> CREATE TABLE wishlist (userID int, productID varchar(20), CONSTRAINT wishlist_entry PRIMARY KEY (userID, productID));
 ```
