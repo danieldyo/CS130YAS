@@ -400,7 +400,7 @@ public class ApiController {
             Node lowestUsedPriceNode = doc.getElementsByTagName("LowestUsedPrice").item(0);
             Node lowestRefurbishedPriceNode = doc.getElementsByTagName("LowestRefurbishedPrice").item(0);
             Node amazonURLNode = doc.getElementsByTagName("MoreOffersUrl").item(0);
-            Node amazonIMGNode = doc.getElementsByTagName("URL").item(2);
+            Node amazonIMGNode = doc.getElementsByTagName("URL").item(1);
             if (lowestNewPriceNode != null) {
                 lowestNewPrice = lowestNewPriceNode.getTextContent();
                 lowestNewPrice = lowestNewPrice.substring(lowestNewPrice.indexOf("$"));
