@@ -131,11 +131,14 @@ public class ApiController {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         User user = userService.findUserByEmail(auth.getName());
 
+        loginToggle(context);
+
         if (user == null) {
             return "login";
         }
 
-        context.put("name", user.getName());
+        context.put("first_name", user.getName());
+        context.put("last_name", user.getLastName());
         context.put("email", user.getEmail());
 
         try{
@@ -181,6 +184,7 @@ public class ApiController {
                 }
 
             }
+
             context.put("wishlist", wishlist);
         }
         catch(Exception e){ System.out.println(e);}

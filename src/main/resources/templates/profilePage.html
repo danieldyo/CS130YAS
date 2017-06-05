@@ -20,10 +20,12 @@
 </div>
 
 
+
+
 <div id="containe">
 
     <h2><a href="/" style="text-decoration:none">How much is my stuff worth?</a></h2>
-Name: {{name}}
+Name: {{first_name}} {{last_name}}
 <br>
 Email: {{email}}
 <br>
@@ -31,11 +33,11 @@ Wishlist:
     <ul>
         {{#wishlist}}
         <li>
-            <img src="{{images.image.1}}" /> &nbsp <span class="big">{{title}}</span> &nbsp {{price}}
             <form class="productPage">
+                <img src="{{images.image.1}}" /> &nbsp <button onclick="idSearch()" id="result"><span class="big">{{title}}</span></button> &nbsp {{price}}
                 <input id="idbox" type="hidden" name="id" onsubmit="idSearch()" value="{{id}}">
-                <button class="submit" onclick="idSearch()">→</button>
                 <button class="submit" onclick="deleteItem()">DELETE</button>
+                <!--<button class="submit" onclick="idSearch()">→</button>-->
             </form>
         </li>
         {{/wishlist}}

@@ -43,9 +43,8 @@
   <ul>
     {{#products}}
     <li>
-
         <form class="productPage" onsubmit="idSearch()">
-            <img src="{{images.image.1}}" /> &nbsp <button onclick="idSearch()" id="result"><span class="big">{{title}}</span> &nbsp {{price}}</button>
+            <img src="{{images.image.1}}" /> &nbsp <button onclick="idSearch()" id="result"><span class="big">{{title}}</span></button> &nbsp {{price}}
             <input id="idbox" type="hidden" name="id" onsubmit="idSearch()" value="{{id}}">
           <!--<button class="submit" onclick="idSearch()">→</button>-->
         </form>
