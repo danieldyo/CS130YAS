@@ -23,3 +23,11 @@ To initialize the database, run the following in project root.
 ```
 mysql -u cs130 -p yas < src/main/resources/static/db/db_structure.sql
 ```
+
+To create table for the wishlist
+```
+mysql -u cs130 -p
+
+mysql> use yas;
+mysql> CREATE TABLE wishlist (userID int, productID varchar(20));
+```
