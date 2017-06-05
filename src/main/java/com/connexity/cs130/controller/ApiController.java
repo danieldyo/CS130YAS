@@ -78,27 +78,21 @@ public class ApiController {
     @RequestMapping("/searchInitial")
     public String search(@RequestParam("keyword") String keyword, Map<String, Object> context) {
         String sort = "relevancy_desc";
-
         return getProductResponse(keyword, sort, context, 0,"", "");
     }
 
     @RequestMapping("/search")
     public String search(@RequestParam("keyword") String keyword, Map<String, Object> context, @RequestParam("minPrice") String minPrice, @RequestParam("maxPrice") String maxPrice, @RequestParam("sort") String sort) {
-        //String sort = "relevancy_desc";
-
         return getProductResponse(keyword, sort, context, 0,minPrice, maxPrice);
     }
 
     @RequestMapping("/nextPage")
     public String nextPage(@RequestParam("keyword") String keyword, @RequestParam("next") int pageNo, Map<String, Object> context, @RequestParam("minPrice") String minPrice, @RequestParam("maxPrice") String maxPrice, @RequestParam("sort") String sort) {
-        //String sort = "relevancy_desc";
         return getProductResponse(keyword, sort, context,  pageNo + 1 , minPrice, maxPrice);
     }
 
     @RequestMapping("/prevPage")
     public String prevPage(@RequestParam("keyword") String keyword, @RequestParam("prev") int pageNo, Map<String, Object> context, @RequestParam("minPrice") String minPrice, @RequestParam("maxPrice") String maxPrice, @RequestParam("sort") String sort) {
-        //String sort = "relevancy_desc";
-
         if (pageNo - 1 < 0)
             return getProductResponse(keyword, sort, context,  0, minPrice, maxPrice);
         else
@@ -130,8 +124,6 @@ public class ApiController {
         }
         return getIdResponse(id, context);
     }
-
-
 
     @RequestMapping("/profile")
     public String profile(@RequestParam(value = "id", required = false) String id, Map<String, Object> context) {
@@ -333,12 +325,14 @@ public class ApiController {
         String lowestUsedPrice = "";
         String lowestRefurbishedPrice = "";
         String amazonURL = "";
+        String amazonIMG = "";
 
         if (upcID == "N/A") {
             context.put("amazonNewPrice", "");
             context.put("amazonUsedPrice", "");
             context.put("amazonRefurbishedPrice", "");
             context.put("amazonURL", "");
+            context.put("amazonIMG", "");
             return;
         }
 
@@ -372,7 +366,6 @@ public class ApiController {
         /*
          * Here is an example in map form, where the request parameters are stored in a map.
          */
-        //System.out.println("Map form example:");
         Map<String, String> params = new HashMap<String, String>();
         params.put("Service", "AWSECommerceService");
         params.put("AssociateTag", amazonAssociateTag);
@@ -380,10 +373,10 @@ public class ApiController {
         params.put("IdType", "UPC");
         params.put("SearchIndex", "All");
         params.put("ItemId", upcID);
-        params.put("ResponseGroup", "Offers");
+        params.put("ResponseGroup", "Offers, Images");
 
         requestUrl = helper.sign(params);
-        //System.out.println("Signed Request is \"" + requestUrl + "\"");
+        System.out.println("Signed Request is \"" + requestUrl + "\"");
 
         try {
             DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
@@ -393,6 +386,7 @@ public class ApiController {
             Node lowestUsedPriceNode = doc.getElementsByTagName("LowestUsedPrice").item(0);
             Node lowestRefurbishedPriceNode = doc.getElementsByTagName("LowestRefurbishedPrice").item(0);
             Node amazonURLNode = doc.getElementsByTagName("MoreOffersUrl").item(0);
+            Node amazonIMGNode = doc.getElementsByTagName("URL").item(2);
             if (lowestNewPriceNode != null) {
                 lowestNewPrice = lowestNewPriceNode.getTextContent();
                 lowestNewPrice = lowestNewPrice.substring(lowestNewPrice.indexOf("$"));
@@ -424,13 +418,13 @@ public class ApiController {
             else {
                 context.put("amazonURL", "");
             }
+            if (amazonIMGNode != null) {
+                amazonIMG = amazonIMGNode.getTextContent();
+                context.put("amazonIMG", amazonIMG);
+            }
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
-        //System.out.println(lowestNewPrice);
-        //System.out.println(lowestUsedPrice);
-        //System.out.println(lowestRefurbishedPrice);
-        //System.out.println(amazonURL);
     }
 
     public String createEbayRequestUrl(String upc, String condition) {

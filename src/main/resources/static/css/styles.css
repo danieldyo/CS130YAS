@@ -152,6 +152,22 @@ img {
     outline: none;
 }
 
+#result {
+    font-family: 'Fjalla One', sans-serif;
+    font-size: 16px;
+    background: transparent;
+    border: none;
+}
+
+#result:hover {
+    text-decoration: underline;
+}
+
+#result:focus {
+    outline: none;
+}
+
+
 /*Based off the tutorial from https://www.w3schools.com/howto/howto_js_tabs.asp*/
 
 div.tab {
