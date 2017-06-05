@@ -10,11 +10,13 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.client.RestTemplate;
 import com.connexity.cs130.model.User;
 import com.connexity.cs130.service.UserService;
 
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -24,6 +26,20 @@ import javax.xml.parsers.DocumentBuilderFactory;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
+
+//import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+//import org.springframework.stereotype.Controller;
+//import org.springframework.validation.BindingResult;
+//import org.springframework.web.bind.annotation.ModelAttribute;
+//import org.springframework.web.bind.annotation.RequestMapping;
+//import org.springframework.web.bind.annotation.RequestMethod;
+//import org.springframework.web.servlet.ModelAndView;
+
+import com.connexity.cs130.model.User;
+import com.connexity.cs130.service.UserService;
+
 
 /**
  * Created by 161497 on 4/20/17.
@@ -90,8 +106,94 @@ public class ApiController {
     }
 
     @RequestMapping("/searchId")
-    public String IdSearch(@RequestParam("id") String id, Map<String, Object> context) {
+    public String IdSearch(@RequestParam(value = "id") String id, Map<String, Object> context, @RequestParam(value = "addItem", required = false) String addId) {
+
+        if (addId != null){
+            Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+            User user = userService.findUserByEmail(auth.getName());
+
+            if (user == null) {
+                return "login";
+            }
+
+            try {
+                Class.forName("com.mysql.jdbc.Driver");
+                Connection con = DriverManager.getConnection(
+                        "jdbc:mysql://localhost:3306/yas", "cs130", "password");
+
+                PreparedStatement stmt = con.prepareStatement("INSERT INTO wishlist (userID, productID) VALUES (?, ?)");
+                stmt.setInt(1,user.getId());
+                stmt.setString(2,addId);
+                stmt.execute();
+                con.close();
+            } catch(Exception e){ System.out.println(e);}
+        }
         return getIdResponse(id, context);
+    }
+
+
+
+    @RequestMapping("/profile")
+    public String profile(@RequestParam(value = "id", required = false) String id, Map<String, Object> context) {
+
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        User user = userService.findUserByEmail(auth.getName());
+
+        if (user == null) {
+            return "login";
+        }
+
+        context.put("name", user.getName());
+        context.put("email", user.getEmail());
+
+        try{
+            Class.forName("com.mysql.jdbc.Driver");
+            Connection con = DriverManager.getConnection(
+                    "jdbc:mysql://localhost:3306/yas","cs130","password");
+
+            Statement statement = con.createStatement();
+            // Delete item first
+            if (id != null) {
+                String query = "delete from wishlist where userID = ? and productID = ?";
+                PreparedStatement preparedStmt = con.prepareStatement(query);
+                preparedStmt.setInt(1, user.getId());
+                preparedStmt.setString(2, id);
+                preparedStmt.execute();
+            }
+
+            // SELECTING FROM DB
+
+            // Queries the database
+            ResultSet rs = statement.executeQuery("select * from wishlist where userID=" + user.getId());
+            ArrayList<String> productIDs = new ArrayList<>();
+
+            // Grabs all the product IDs for the user's wishlist
+            while(rs.next()) {
+                //System.out.println(rs.getInt(1) + "  " + rs.getInt(2));
+                productIDs.add(rs.getString(2));
+            }
+            con.close();
+
+            ArrayList<OfferResponse.Offer> wishlist = new ArrayList<>();
+
+            // Query Connexity API for each
+            for (String productID: productIDs) {
+                OfferResponse response;
+                String url = createProductIdRequestUrl(productID);
+                response = restTemplate.getForEntity(url, OfferResponse.class).getBody();
+
+                System.out.println(response);
+                // Add each response to wishlist arraylist
+                for (int i = 0; i != response.offers.offer.size(); i++) {
+                    wishlist.add(response.offers.offer.get(i));
+                }
+
+            }
+            context.put("wishlist", wishlist);
+        }
+        catch(Exception e){ System.out.println(e);}
+
+        return "profilePage";
     }
 
     private String getProductResponse(String keyword, String sort, Map<String,Object> context, int page, String minPrice, String maxPrice) {
@@ -364,6 +466,7 @@ public class ApiController {
 
     private String getIdResponse(String id, Map<String,Object> context) {
         OfferResponse response;
+        System.out.println(id);
         String url = createProductIdRequestUrl(id);
         response = restTemplate.getForEntity(url, OfferResponse.class).getBody();
 

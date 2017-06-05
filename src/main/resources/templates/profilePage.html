@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Profile Page</title>
+    <link rel="stylesheet" type="text/css" href="/css/styles.css">
+</head>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<body>
+
+<div id="containe">
+
+    <h2><a href="/" style="text-decoration:none">How much is my stuff worth?</a></h2>
+Name: {{name}}
+<br>
+Email: {{email}}
+<br>
+Wishlist:
+    <ul>
+        {{#wishlist}}
+        <li>
+            <img src="{{images.image.1}}" /> &nbsp <span class="big">{{title}}</span> &nbsp {{price}}
+            <form class="productPage">
+                <input id="idbox" type="hidden" name="id" onsubmit="idSearch()" value="{{id}}">
+                <button class="submit" onclick="idSearch()">→</button>
+                <button class="submit" onclick="deleteItem()">DELETE</button>
+            </form>
+        </li>
+        {{/wishlist}}
+    </ul>
+
+<br>
+</div>
+
+</body>
+<script src="/js/scripts.js"></script>
+</html>
