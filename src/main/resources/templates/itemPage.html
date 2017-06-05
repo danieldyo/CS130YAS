@@ -16,20 +16,18 @@
     <a href="/login">Login</a>
     {{/show-login}}
     {{#username}}
-    <button id="profile">Hello, {{.}}</button> | <a href="/logout">Logout</a>
+    <form action="/profile">
+        <button id="profile">Hello, {{.}}</button> | <a href="/logout">Logout</a>
+    </form>
     {{/username}}
 </div>
+
 
 <div id="searchbar">
     <h2><a href="/" style="text-decoration:none">How much is my stuff worth?</a></h2>
     <form id="productSearch">
         <input id="searchbox" type="text" name="keyword" onsubmit="productSearch()">
         <button class="submit" onclick="productSearch()">→</button>
-        <button class="submit" onclick="productSearchAsc()">$$↑</button>
-        <button class="submit desc" onclick="productSearchDesc()">$$↓</button>
-        $ <input class="priceBox" type="text" name="minPrice" onsubmit="productSearch()">
-        to $ <input class="priceBox" type="text" name="maxPrice" onsubmit="productSearch()">
-        <input type="hidden" id="sort" name="sort">
     </form>
 </div>
 

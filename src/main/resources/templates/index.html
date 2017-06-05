@@ -11,16 +11,14 @@
   <a href="/login">Login</a>
   {{/show-login}}
   {{#username}}
-  <button id="profile">Hello, {{.}}</button> | <a href="/logout">Logout</a>
+  <form action="/profile">
+    <button id="profile">Hello, {{.}}</button> | <a href="/logout">Logout</a>
+  </form>
   {{/username}}
 </div>
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 <body>
-
-<form action="/api/profile" id="profilePage">
-  <button class="submit">Profile</button>
-</form>
 
 
 

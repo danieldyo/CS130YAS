@@ -43,11 +43,11 @@ function idSearch() {
 }
 
 function deleteItem() {
-    $('.productPage').attr('action','/api/profile');
+    $('.productPage').attr('action','/profile');
 }
 
 function addItem() {
-    $('#addItem').attr('action','/api/searchId');
+    $('#addItem').attr('action','/searchId');
 }
 
 /*Based off the tutorial from https://www.w3schools.com/howto/howto_js_tabs.asp*/
