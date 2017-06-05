@@ -480,6 +480,11 @@ public class ApiController {
             prs.add(response.offers.offer.get(i));
         }
 
+        if (prs.size() == 0) {
+            context.put("message", "Display 404 Page");
+            return "itemPage";
+        }
+
         context.put("products", prs);
         context.put("message", "");
 
@@ -487,10 +492,7 @@ public class ApiController {
         getAmazonResponse(context, upc);
         getEbayResponse(context, upc);
 
-        if (prs.size() == 0) {
-            context.put("message", "Display 404 Page");
-            return "itemPage";
-        }
+
 
         return "itemPage";
     }
