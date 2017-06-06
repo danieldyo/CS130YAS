@@ -65,7 +65,6 @@ function addItem() {
 }
 
 /*Based off the tutorial from https://www.w3schools.com/howto/howto_js_tabs.asp*/
-
 //allow 'new' to show up on page load
 
 $('#addItem').submit(function (event) {
