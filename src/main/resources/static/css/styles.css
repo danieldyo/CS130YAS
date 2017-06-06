@@ -6,6 +6,10 @@
     -webkit-box-sizing: border-box;
 }
 
+*:focus {
+    outline: none;
+}
+
 html {
     font-family: 'Fjalla One', sans-serif;
     background: linear-gradient(#baf4ea, #ffcc69);
@@ -43,29 +47,6 @@ img {
     vertical-align: middle;
 }
 
-.col-2 {
-    width: 50%;
-    margin: 0;
-    padding: 35px;
-    float: left;
-}
-
-#product {
-    font-family: 'Raleway', sans-serif;
-    font-weight: 100;
-}
-
-#imagebox {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background-color: white;
-    border-radius: 50%;
-    width: 350px;
-    height: 350px;
-    margin: auto;
-}
-
 #searchbox {
     width: 50%;
     height: 40px;
@@ -74,14 +55,14 @@ img {
 
 .priceBox {
     width: 60px;
-        }
+}
 
 .submit {
     font-family: 'Fjalla One', sans-serif;
-    font-size: 24px;
-    height: 46px;
+    font-size: 20px;
+    height: 38px;
     vertical-align: top;
-    background-color: lightgray;
+    background-color: whitesmoke;
     border: none;
     margin: 0;
     cursor: hand;
@@ -90,11 +71,10 @@ img {
 .pagination {
     font-family: 'Fjalla One', sans-serif;
     font-size: 16px;
-    background-color: lightgray;
+    background-color: whitesmoke;
     border: none;
     margin: 0;
     padding: 10px;
-    cursor: hand;
 }
 
 .big {
@@ -128,6 +108,15 @@ img {
     overflow: hidden;
 }
 
+
+#next {
+    float: right;
+}
+
+#prev {
+    float: left;
+}
+
 .down {
     background-color: pink;
 }
@@ -149,10 +138,6 @@ img {
     text-decoration: underline;
 }
 
-#profile:focus {
-    outline: none;
-}
-
 #result {
     font-family: 'Fjalla One', sans-serif;
     font-size: 16px;
@@ -162,46 +147,4 @@ img {
 
 #result:hover {
     text-decoration: underline;
-}
-
-#result:focus {
-    outline: none;
-}
-
-
-/*Based off the tutorial from https://www.w3schools.com/howto/howto_js_tabs.asp*/
-
-div.tab {
-    overflow: hidden;
-    font-family: 'Raleway', sans-serif;
-    padding-top: 35px;
-}
-
-/* Style the buttons inside the tab */
-div.tab button {
-    float: left;
-    border: none;
-    outline: none;
-    cursor: pointer;
-    padding: 8px 16px;
-    background-color: transparent;
-    font-family: inherit;
-    border-bottom: 3px solid transparent;
-    transition: 0.2s ease-out;
-}
-
-/* Change background color of buttons on hover */
-div.tab button:hover {
-    border-bottom: 3px solid aquamarine;
-}
-
-/* Create an active/current tablink class */
-div.tab button.active {
-    border-bottom: 3px solid aquamarine;
-}
-
-/* Style the tab content */
-.tabcontent {
-    display: none;
-    padding: 6px 12px;
 }

@@ -48,9 +48,18 @@ function deleteItem() {
 
 function addItem() {
     $('#addItem').attr('action','/searchId');
+    alert("add item function called");
 }
 
 /*Based off the tutorial from https://www.w3schools.com/howto/howto_js_tabs.asp*/
+
+//allow 'new' to show up on page load
+
+$('#addItem').submit(function (event) {
+    addItem();
+    $('#added').css('display', 'inline-block').fadeOut(2500);
+    event.preventDefault();
+});
 
 function productTab(evt, condition) {
     // Declare all variables
@@ -59,7 +68,7 @@ function productTab(evt, condition) {
     // Get all elements with class="tabcontent" and hide them
     tabcontent = document.getElementsByClassName("tabcontent");
     for (i = 0; i < tabcontent.length; i++) {
-        tabcontent[i].style.display = "none";
+            tabcontent[i].style.display = "none";
     }
 
     // Get all elements with class="tablinks" and remove the class "active"

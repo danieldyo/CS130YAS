@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <title>YAS</title>
     <link rel="stylesheet" type="text/css" href="/css/styles.css">
+    <link rel="stylesheet" type="text/css" href="/css/item.css">
 
     <!-- jQuery Library -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
@@ -32,8 +33,7 @@
     </form>
 </div>
 
-<div>
-    {{message}}
+<div class = "container">
     {{#products}}
     <div class="col-2">
         <div id="imagebox">
@@ -41,36 +41,44 @@
         </div>
     </div>
     <div id="product" class="col-2">
-        <span class="big">{{title}}</span> &nbsp<form id="addItem"><input type="hidden" name="id" value="{{id}}"><input type="hidden" name="addItem" value="{{id}}"><button onsubmit="addItem()" class="submit">Add to wishlist</button></form>  <!-- &nbsp {{price}} &nbsp {{upc}} &nbsp {{id}} -->
+        <span class="big">{{title}}</span> &nbsp
+        <p>
+            <form id="addItem"><input type="hidden" name="id" value="{{id}}">
+                <input type="hidden" name="addItem" value="{{id}}">
+                <button type="submit" class="wishlist-button">
+                    <img src="/images/wishlist.png" height="35" width="35" />add to wishlist
+                </button>
+                <div id="added">
+                    <p>added!</p>
+                </div>
+            </form>
+        </p>
 
         <!-- Based off the tutorial from https://www.w3schools.com/howto/howto_js_tabs.asp -->
         <div class="tab">
-            <button class="tablinks" onclick="productTab(event, 'new')">new</button>
+            <button class="tablinks active" onclick="productTab(event, 'new')">new</button>
             <button class="tablinks" onclick="productTab(event, 'used')">used</button>
             <button class="tablinks" onclick="productTab(event, 'refurbished')">refurbished</button>
         </div>
 
         <div id="new" class="tabcontent">
             <ul>
-                <li>Item 1</li>
-                <li>Item 2</li>
-                <li>Item 3</li>
+                <li><a href="{{amazonURL}}" target="_blank">Amazon [↗]</a> &nbsp {{amazonNewPrice}}</li>
+                <li><a href="{{ebayURL}}" target="_blank">eBay [↗]</a> &nbsp {{ebayNewPrice}}</li>
             </ul>
         </div>
 
         <div id="used" class="tabcontent">
             <ul>
-                <li>Item 1</li>
-                <li>Item 2</li>
-                <li>Item 3</li>
+                <li><a href="{{amazonURL}}" target="_blank">Amazon [↗]</a> &nbsp {{amazonUsedPrice}}</li>
+                <li><a href="{{ebayURL}}" target="_blank">eBay [↗]</a> &nbsp {{ebayUsedPrice}}</li>
             </ul>
         </div>
 
         <div id="refurbished" class="tabcontent">
             <ul>
-                <li>Item 1</li>
-                <li>Item 2</li>
-                <li>Item 3</li>
+                <li><a href="{{amazonURL}}" target="_blank">Amazon [↗]</a> &nbsp {{amazonRefurbishedPrice}}</li>
+                <li><a href="{{ebayURL}}" target="_blank">eBay [↗]</a> &nbsp {{ebayRefurbishedPrice}}</li>
             </ul>
         </div>
 
