@@ -50,14 +50,18 @@ function addItem() {
     var id = $('#item').val();
     $.ajax({
         url:"http://localhost:8080/addItem?id=" + id,
-        success:function() {
-            console.log("successfully added item");
+        success:function(data) {
+            if (data == "no_user") {
+                window.location.assign("http://localhost:8080/login");
+            }
+            else {
+                $('#added').css('display', 'inline-block').fadeOut(2500);
+            }
         },
         error: function () {
             console.log("failed to add item");
         }
     });
-    //alert("add item function called");
 }
 
 /*Based off the tutorial from https://www.w3schools.com/howto/howto_js_tabs.asp*/
@@ -66,7 +70,6 @@ function addItem() {
 
 $('#addItem').submit(function (event) {
     addItem();
-    $('#added').css('display', 'inline-block').fadeOut(2500);
     event.preventDefault();
 });
 

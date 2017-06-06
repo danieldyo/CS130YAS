@@ -104,15 +104,15 @@ public class ApiController {
 
     @CrossOrigin(origins = "http://localhost:8080") // Required for the ajax call
     @GetMapping("/addItem")
+    @ResponseBody
     public String addItem(@RequestParam(value = "id") String id, Map<String, Object> context) {
         if (id != null){
             Authentication auth = SecurityContextHolder.getContext().getAuthentication();
             User user = userService.findUserByEmail(auth.getName());
-            System.out.println("searchID called");
-            if (user == null) {
-                return "login";
-            }
 
+            if (user == null) {
+                return "no_user";
+            }
             try {
                 Class.forName("com.mysql.jdbc.Driver");
                 Connection con = DriverManager.getConnection(
@@ -125,7 +125,7 @@ public class ApiController {
                 con.close();
             } catch(Exception e){ System.out.println(e);}
         }
-        return getIdResponse(id, context);
+        return "is_user";
     }
 
     @RequestMapping("/profile")
