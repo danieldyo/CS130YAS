@@ -47,8 +47,17 @@ function deleteItem() {
 }
 
 function addItem() {
-    $('#addItem').attr('action','/searchId');
-    alert("add item function called");
+    var id = $('#item').val();
+    $.ajax({
+        url:"http://localhost:8080/addItem?id=" + id,
+        success:function() {
+            console.log("successfully added item");
+        },
+        error: function () {
+            console.log("failed to add item");
+        }
+    });
+    //alert("add item function called");
 }
 
 /*Based off the tutorial from https://www.w3schools.com/howto/howto_js_tabs.asp*/

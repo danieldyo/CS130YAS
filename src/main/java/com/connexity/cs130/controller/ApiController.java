@@ -9,9 +9,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 import com.connexity.cs130.model.User;
 import com.connexity.cs130.service.UserService;
@@ -100,12 +98,17 @@ public class ApiController {
     }
 
     @RequestMapping("/searchId")
-    public String IdSearch(@RequestParam(value = "id") String id, Map<String, Object> context, @RequestParam(value = "addItem", required = false) String addId) {
+    public String IdSearch(@RequestParam(value = "id") String id, Map<String, Object> context) {
+        return getIdResponse(id, context);
+    }
 
-        if (addId != null){
+    @CrossOrigin(origins = "http://localhost:8080") // Required for the ajax call
+    @GetMapping("/addItem")
+    public String addItem(@RequestParam(value = "id") String id, Map<String, Object> context) {
+        if (id != null){
             Authentication auth = SecurityContextHolder.getContext().getAuthentication();
             User user = userService.findUserByEmail(auth.getName());
-
+            System.out.println("searchID called");
             if (user == null) {
                 return "login";
             }
@@ -117,7 +120,7 @@ public class ApiController {
 
                 PreparedStatement stmt = con.prepareStatement("INSERT INTO wishlist (userID, productID) VALUES (?, ?)");
                 stmt.setInt(1,user.getId());
-                stmt.setString(2,addId);
+                stmt.setString(2,id);
                 stmt.execute();
                 con.close();
             } catch(Exception e){ System.out.println(e);}
@@ -477,7 +480,6 @@ public class ApiController {
 
     private String getIdResponse(String id, Map<String,Object> context) {
         OfferResponse response;
-        System.out.println(id);
         String url = createProductIdRequestUrl(id);
         response = restTemplate.getForEntity(url, OfferResponse.class).getBody();
 
