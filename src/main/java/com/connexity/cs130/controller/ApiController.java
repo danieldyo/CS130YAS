@@ -275,6 +275,9 @@ public class ApiController {
     public void ebayTry(Map<String,Object> context, String url, String contextName) {
 
         String lowestPrice = "";
+        String ebayContextName = contextName + "Price";
+        String ebayURLContext = contextName + "URL";
+        String ebayImageContext = contextName + "Image";
         String ebayURL = "";
         String imageURL = "";
 
@@ -288,26 +291,26 @@ public class ApiController {
 
             if (lowestNewPriceNode != null) {
                 lowestPrice = lowestNewPriceNode.getTextContent();
-                context.put(contextName, "$"+ lowestPrice);
+                context.put(ebayContextName, "$"+ lowestPrice);
             }
             else {
-                context.put(contextName, "");
+                context.put(ebayContextName, "");
             }
 
             if (itemURLNode != null) {
                 ebayURL = itemURLNode.getTextContent();
-                context.put("ebayURL", ebayURL);
+                context.put(ebayURLContext, ebayURL);
             }
             else {
-                context.put("ebayURL", "");
+                context.put(ebayURLContext, "");
             }
 
             if (itemImageNode != null) {
                 imageURL = itemImageNode.getTextContent();
-                context.put("ebayImage", imageURL);
+                context.put(ebayImageContext, imageURL);
             }
             else {
-                context.put("ebayImage", "");
+                context.put(ebayImageContext, "");
             }
 
         } catch (Exception e) {
@@ -328,9 +331,9 @@ public class ApiController {
         String urlNew = createEbayRequestUrl(upcID, "new");
         String urlUsed = createEbayRequestUrl(upcID, "used");
         String urlRefurb = createEbayRequestUrl(upcID, "refurbished");
-        ebayTry(context, urlNew, "ebayNewPrice");
-        ebayTry(context, urlUsed, "ebayUsedPrice");
-        ebayTry(context, urlRefurb, "ebayRefurbishedPrice");
+        ebayTry(context, urlNew, "ebayNew");
+        ebayTry(context, urlUsed, "ebayUsed");
+        ebayTry(context, urlRefurb, "ebayRefurbished");
     }
 
     public void getAmazonResponse(Map<String,Object> context, String upcID) {
