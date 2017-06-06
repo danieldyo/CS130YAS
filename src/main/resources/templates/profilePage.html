@@ -2,46 +2,46 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Profile Page</title>
+    <title>YAS | Profile</title>
     <link rel="stylesheet" type="text/css" href="/css/styles.css">
+    <link rel="stylesheet" type="text/css" href="/css/profile.css">
 </head>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 <body>
 
 <div id="login">
-    {{#show-login}}
+    <!-- {{#show-login}}
     <a href="/login">Login</a>
     {{/show-login}}
     {{#username}}
-    <form action="/profile">
-        <button id="profile">Hello, {{.}}</button> | <a href="/logout">Logout</a>
-    </form>
-    {{/username}}
+    <form action="/profile"> -->
+    <a href="/">Home</a> | <a href="/logout">Logout</a>
+    <!-- </form>
+    {{/username}} -->
 </div>
 
-
-
-
-<div id="containe">
-
-    <h2><a href="/" style="text-decoration:none">How much is my stuff worth?</a></h2>
-Name: {{first_name}} {{last_name}}
-<br>
-Email: {{email}}
-<br>
-Wishlist:
-    <ul>
+<div id="profile-content">
+    <h2>{{first_name}} {{last_name}}</h2>
+    {{email}}
+<p>
+    <ul class="wishlist">
         {{#wishlist}}
-        <li>
+        <li class="product-img">
             <form class="productPage">
-                <img src="{{images.image.1}}" /> &nbsp <button onclick="idSearch()" id="result"><span class="big">{{title}}</span></button> &nbsp {{price}}
-                <input id="idbox" type="hidden" name="id" onsubmit="idSearch()" value="{{id}}">
-                <button class="submit" onclick="deleteItem()">DELETE</button>
-                <!--<button class="submit" onclick="idSearch()">→</button>-->
+                <div>
+                    <img src="{{images.image.2}}" /> <!-- <button onclick="idSearch()" id="result"><span class="big">{{title}}</span></button> &nbsp {{price}} -->
+                    <input id="idbox" type="hidden" name="id" onsubmit="idSearch()" value="{{id}}">
+                    <!-- <button class="submit" onclick="deleteItem()">DELETE</button> -->
+                    <div class="overlay">
+                        <button onclick="idSearch()" class="clear"><span class="hspace">[↗]</span></button>
+                        <button class="clear" onclick="deleteItem()"><span class="hspace">[✕]</span></button>
+                    </div>
+                </div>
             </form>
         </li>
         {{/wishlist}}
     </ul>
+</di</p>
 
 <br>
 </div>

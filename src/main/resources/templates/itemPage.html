@@ -37,11 +37,11 @@
     {{#products}}
     <div class="col-2">
         <div id="imagebox">
-            <img src="{{images.image.1}}" />
+            <img src="{{images.image.2}}" />
         </div>
     </div>
     <div id="product" class="col-2">
-        <span class="big">{{title}}</span> &nbsp
+        <span class="big">{{title}}</span>
         <p>
             <form id="addItem">
                 <input type="hidden" name="id" value="{{id}}" id="item">
@@ -64,21 +64,21 @@
         <div id="new" class="tabcontent">
             <ul>
                 <li><a href="{{amazonURL}}" target="_blank">Amazon [↗]</a> &nbsp {{amazonNewPrice}}</li>
-                <li><a href="{{ebayURL}}" target="_blank">eBay [↗]</a> &nbsp {{ebayNewPrice}}</li>
+                <li><a href="{{ebayNewURL}}" target="_blank">eBay [↗]</a> &nbsp {{ebayNewPrice}}</li>
             </ul>
         </div>
 
         <div id="used" class="tabcontent">
             <ul>
                 <li><a href="{{amazonURL}}" target="_blank">Amazon [↗]</a> &nbsp {{amazonUsedPrice}}</li>
-                <li><a href="{{ebayURL}}" target="_blank">eBay [↗]</a> &nbsp {{ebayUsedPrice}}</li>
+                <li><a href="{{ebayUsedURL}}" target="_blank">eBay [↗]</a> &nbsp {{ebayUsedPrice}}</li>
             </ul>
         </div>
 
         <div id="refurbished" class="tabcontent">
             <ul>
                 <li><a href="{{amazonURL}}" target="_blank">Amazon [↗]</a> &nbsp {{amazonRefurbishedPrice}}</li>
-                <li><a href="{{ebayURL}}" target="_blank">eBay [↗]</a> &nbsp {{ebayRefurbishedPrice}}</li>
+                <li><a href="{{ebayRefurbishedURL}}" target="_blank">eBay [↗]</a> &nbsp {{ebayRefurbishedPrice}}</li>
             </ul>
         </div>
 
