@@ -8,6 +8,8 @@ import org.junit.runners.MethodSorters;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.phantomjs.PhantomJSDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
@@ -28,7 +30,14 @@ public class IntegrationTests {
     @Autowired
     private UserService userService;
 
+    // Below enable one of the two drivers
+    // Change line below: //* enables PhantomJS, /* enables ChromeDriver
+    //*
     private WebDriver webDriver = new PhantomJSDriver();
+    /*/
+    someOtherCode();
+    private WebDriver webDriver = new ChromeDriver();
+    //*/
 
     @BeforeClass
     public static void beforeClass() throws Exception {
@@ -81,10 +90,10 @@ public class IntegrationTests {
         WebElement emailElem = webDriver.findElement(By.name("email"));
         WebElement passElem = webDriver.findElement(By.name("password"));
 
-        firstNameElem.sendKeys(firstName);
-        lastNameElem.sendKeys(lastName);
         emailElem.sendKeys(email);
         passElem.sendKeys(password);
+        firstNameElem.sendKeys(firstName);
+        lastNameElem.sendKeys(lastName);
         webDriver.findElement(By.className("account-submit")).click();
 
         // at this point, the account should exist
@@ -110,6 +119,21 @@ public class IntegrationTests {
         // cleanup database
         User newUser = userService.findUserByEmail(email);
         userService.deleteUser(newUser);
+    }
+
+    @Test
+    public void TestFullSearch()
+    {
+        // go to home page
+        webDriver.get("http://localhost:8080/");
+
+        // perform a search
+        WebElement searchBox = waitFor().until(ExpectedConditions.presenceOfElementLocated(By.id("searchbox")));
+        searchBox.sendKeys("shoes");
+        webDriver.findElement(By.className("submit")).click();
+
+        // assert existence of at least one result
+        Assert.assertNotNull(webDriver.findElement(By.id("result")));
     }
 
     protected WebDriverWait waitFor() {
