@@ -327,7 +327,9 @@ public class ApiController {
             context.put("ebayNewPrice", "");
             context.put("ebayUsedPrice", "");
             context.put("ebayRefurbishedPrice", "");
-            context.put("ebayURL", "");
+            context.put("ebayNewURL", "");
+            context.put("ebayUsedURL", "");
+            context.put("ebayRefurbishedURL", "");
             return;
         }
 

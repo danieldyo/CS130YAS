@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css?family=Fjalla+One|Open+Sans+Condensed:300|Raleway');
+@import url('https://fonts.googleapis.com/css?family=Assistant|Open+Sans+Condensed:300|Raleway');
 
 * {
     box-sizing: border-box;
@@ -11,7 +11,7 @@
 }
 
 html {
-    font-family: 'Fjalla One', sans-serif;
+    font-family: 'Assistant', sans-serif;
     background: linear-gradient(#baf4ea, #ffcc69);
     background-size: cover;
     background-repeat: no-repeat;
@@ -24,7 +24,8 @@ body {
 }
 
 h2 {
-    font-size: 40px;
+    font-size: 50px;
+    font-weight: 200;
     margin-bottom: 10px;
 }
 
@@ -58,7 +59,7 @@ img {
 }
 
 .submit {
-    font-family: 'Fjalla One', sans-serif;
+    font-family: 'Assistant', sans-serif;
     font-size: 20px;
     height: 38px;
     vertical-align: top;
@@ -69,7 +70,7 @@ img {
 }
 
 .pagination {
-    font-family: 'Fjalla One', sans-serif;
+    font-family: 'Assistant', sans-serif;
     font-size: 16px;
     background-color: whitesmoke;
     border: none;
@@ -128,7 +129,7 @@ img {
 }
 
 #profile {
-    font-family: 'Fjalla One', sans-serif;
+    font-family: 'Assistant', sans-serif;
     font-size: 16px;
     background: transparent;
     border: none;
@@ -139,7 +140,7 @@ img {
 }
 
 #result {
-    font-family: 'Fjalla One', sans-serif;
+    font-family: 'Assistant', sans-serif;
     font-size: 16px;
     background: transparent;
     border: none;

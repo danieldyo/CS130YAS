@@ -64,6 +64,25 @@ function addItem() {
     });
 }
 
+/*Based off the tutorial from https://www.w3schools.com/w3css/w3css_slideshow.asp*/
+var slideIndex = 1;
+showImgs(slideIndex);
+
+function showImgs(n) {
+    showImg(slideIndex += n);
+}
+
+function showImg(n) {
+    var i;
+    var x = document.getElementsByClassName("img-slides");
+    if (n > x.length) {slideIndex = 1}
+    if (n < 1) {slideIndex = x.length};
+    for (i = 0; i < x.length; i++) {
+        x[i].style.display = "none";
+    }
+    x[slideIndex-1].style.display = "block";
+}
+
 /*Based off the tutorial from https://www.w3schools.com/howto/howto_js_tabs.asp*/
 //allow 'new' to show up on page load
 
