@@ -512,7 +512,7 @@ public class ApiController {
         }
 
         if (prs.size() == 0) {
-            context.put("message", "Display 404 Page");
+            context.put("message", "No Data Found.");
             return "itemPage";
         }
 
