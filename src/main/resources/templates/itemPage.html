@@ -44,6 +44,8 @@
         </div>
     </div>
     <div id="product" class="col-2">
+        <span class="bigger">{{manufacturer}}</span>
+        <br>
         <span class="big">{{title}}</span>
         <p>
             <form id="addItem">
@@ -55,6 +57,9 @@
                     <p>added!</p>
                 </div>
             </form>
+            <br>
+            {{description}}
+            <br>
         </p>
 
         <!-- Based off the tutorial from https://www.w3schools.com/howto/howto_js_tabs.asp -->
@@ -66,6 +71,7 @@
 
         <div id="new" class="tabcontent">
             <ul>
+                <li><a href="{{url}}" target="_blank">{{merchantName}} [↗]</a> &nbsp {{price}}</li>
                 <li><a href="{{amazonURL}}" target="_blank">Amazon [↗]</a> &nbsp {{amazonNewPrice}}</li>
                 <li><a href="{{ebayNewURL}}" target="_blank">eBay [↗]</a> &nbsp {{ebayNewPrice}}</li>
             </ul>

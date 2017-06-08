@@ -27,6 +27,7 @@ h2 {
     font-size: 50px;
     font-weight: 200;
     margin-bottom: 10px;
+    font-weight: bold;
 }
 
 a, a:hover, a:visited {
@@ -81,6 +82,12 @@ img {
 .big {
     font-size: 24px;
     font-family: "Open Sans Condensed", sans-serif;
+    font-weight: bold;
+}
+
+.bigger {
+    font-size: 32px;
+    font-family: "Assistant", sans-serif;
     font-weight: bold;
 }
 

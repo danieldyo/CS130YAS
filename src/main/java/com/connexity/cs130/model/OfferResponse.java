@@ -83,8 +83,7 @@ public class OfferResponse {
 
         @Override
         public String toString() {
-            return "url: {'" + value + '\'' +
-                    '}';
+            return value;
         }
     }
 
