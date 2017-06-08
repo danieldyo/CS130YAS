@@ -297,7 +297,7 @@ public class ApiController {
                 context.put(ebayContextName, "$"+ lowestPrice);
             }
             else {
-                context.put(ebayContextName, "");
+                context.put(ebayContextName, "N/A");
             }
 
             if (itemURLNode != null) {
@@ -324,9 +324,9 @@ public class ApiController {
     public void getEbayResponse(Map<String,Object> context, String upcID) {
 
         if (upcID == "N/A") {
-            context.put("ebayNewPrice", "");
-            context.put("ebayUsedPrice", "");
-            context.put("ebayRefurbishedPrice", "");
+            context.put("ebayNewPrice", "N/A");
+            context.put("ebayUsedPrice", "N/A");
+            context.put("ebayRefurbishedPrice", "N/A");
             context.put("ebayNewURL", "");
             context.put("ebayUsedURL", "");
             context.put("ebayRefurbishedURL", "");
@@ -350,9 +350,9 @@ public class ApiController {
         String amazonIMG = "";
 
         if (upcID == "N/A") {
-            context.put("amazonNewPrice", "");
-            context.put("amazonUsedPrice", "");
-            context.put("amazonRefurbishedPrice", "");
+            context.put("amazonNewPrice", "N/A");
+            context.put("amazonUsedPrice", "N/A");
+            context.put("amazonRefurbishedPrice", "N/A");
             context.put("amazonURL", "");
             context.put("amazonIMG", "");
             return;
@@ -415,7 +415,7 @@ public class ApiController {
                 context.put("amazonNewPrice", lowestNewPrice);
             }
             else {
-                context.put("amazonNewPrice", "");
+                context.put("amazonNewPrice", "N/A");
             }
             if (lowestUsedPriceNode != null) {
                 lowestUsedPrice = lowestUsedPriceNode.getTextContent();
@@ -423,7 +423,7 @@ public class ApiController {
                 context.put("amazonUsedPrice", lowestUsedPrice);
             }
             else {
-                context.put("amazonUsedPrice", "");
+                context.put("amazonUsedPrice", "N/A");
             }
             if (lowestRefurbishedPriceNode != null) {
                 lowestRefurbishedPrice = lowestRefurbishedPriceNode.getTextContent();
@@ -431,7 +431,7 @@ public class ApiController {
                 context.put("amazonRefurbishedPrice", lowestRefurbishedPrice);
             }
             else {
-                context.put("amazonRefurbishedPrice", "");
+                context.put("amazonRefurbishedPrice", "N/A");
             }
             if (amazonURLNode != null) {
                 amazonURL = amazonURLNode.getTextContent();
