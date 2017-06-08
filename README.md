@@ -1,6 +1,9 @@
 # CS130YAS
 YAAAAAS
 
+## Testing setup
+Download latest binary from [phantomjs.org](http://phantomjs.org/download.html) and place it in your PATH (or Windows equivalent, if you are so inclined).
+
 ## Database Setup
 To set up mysql, run it on port 3306 (this is the default port, so simply installing and starting it should be sufficient).
 
