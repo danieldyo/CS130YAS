@@ -444,6 +444,9 @@ public class ApiController {
                 amazonIMG = amazonIMGNode.getTextContent();
                 context.put("amazonIMG", amazonIMG);
             }
+            else {
+                context.put("amazonIMG", "");
+            }
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
