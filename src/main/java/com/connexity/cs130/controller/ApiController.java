@@ -503,9 +503,6 @@ public class ApiController {
         OfferResponse response;
         String url = createProductIdRequestUrl(id);
         response = restTemplate.getForEntity(url, OfferResponse.class).getBody();
-
-        //System.out.println(response);
-
         loginToggle(context);
 
         ArrayList<OfferResponse.Offer> prs = new ArrayList<>();
@@ -525,8 +522,6 @@ public class ApiController {
         String upc = response.offers.offer.get(0).upc;
         getAmazonResponse(context, upc);
         getEbayResponse(context, upc);
-
-
 
         return "itemPage";
     }
