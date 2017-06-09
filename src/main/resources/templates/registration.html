@@ -12,14 +12,25 @@
         <form autocomplete="off" action="#" action="/registration"
               object="user" method="post" class="form-horizontal"
               role="form">
-            <input type="text" name="name" placeholder="First Name" /> <br>
-            <input type="text" name="lastName" placeholder="Last Name"/> <br>
-            <input type="text" name="email" placeholder="Email"/> <br>
-            <input type="password" name="password" placeholder="Password"  /> <br>
+            <input type="text" name="name" placeholder="First Name" required/> <br>
+            <input type="text" name="lastName" placeholder="Last Name" required/> <br>
+            <input type="text" name="email" placeholder="Email" required pattern="[^@.]+@[^@.]+\.[^@.]+" title="Valid email address."/> <br>
+            <input type="password" name="password" placeholder="Password" required pattern=".{4,}" title="Password longer than four characters."/> <br>
             <button type="submit" class="account-submit">Create an Account</button>
         </form>
         <p><span class="smaller">
-        Already have an account? Login <a href="/login"><u>here.</u></a>
+        {{#error.user}}
+            {{.}}
+        {{/error.user}}
+        {{^error.user}}
+            {{#successMessage}}
+            {{.}}
+            {{/successMessage}}
+            {{^successMessage}}
+            Already have an account?
+            {{/successMessage}}
+            Login <a href="/login"><u>here.</u></a>
+        {{/error.user}}
     </span>
         </p>
     </div>

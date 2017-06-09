@@ -14,13 +14,18 @@
     <form action="/login" method="POST">
         <h3 text="Welcome"></h3>
         <br/>
-        <input type="text" id="email" name="email"  placeholder="Email" /> <br/>
+        <input type="text" id="email" name="email"  placeholder="Email" required pattern="[^@.]+@[^@.]+\.[^@.]+" title="Valid email address."/> <br/>
         <input type="password"  placeholder="Password"
                id="password" name="password" /> <br />
         <button class="account-submit" name="Submit" value="Login" type="Submit" text="Login">Login</button>
     </form>
     <p><span class="smaller">
+        {{#error}}
+        Wrong username or password. Either try again, or register <a href="/registration"><u>here.</u></a>
+        {{/error}}
+        {{^error}}
         Don't have an account? Register <a href="/registration"><u>here.</u></a>
+        {{/error}}
     </span>
     </p>
 </div>

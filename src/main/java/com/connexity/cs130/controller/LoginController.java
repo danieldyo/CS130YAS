@@ -30,10 +30,13 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.connexity.cs130.model.User;
 import com.connexity.cs130.service.UserService;
+
+import java.util.Map;
 
 @Controller
 public class LoginController {
@@ -42,7 +45,11 @@ public class LoginController {
     private UserService userService;
 
     @RequestMapping(value={"/login"}, method = RequestMethod.GET)
-    public String login(){
+    public String login(@RequestParam(value = "error", defaultValue = "") String error, Map<String, Object> context){
+        System.out.println("error: " + error);
+        if (!error.isEmpty()) {
+            context.put("error", error);
+        }
         return "login";
     }
 
@@ -57,27 +64,18 @@ public class LoginController {
     }
 
     @RequestMapping(value = "/registration", method = RequestMethod.POST)
-    public ModelAndView createNewUser(@ModelAttribute User user, BindingResult bindingResult) {
+    public ModelAndView createNewUser(@ModelAttribute User user) {
         ModelAndView modelAndView = new ModelAndView();
         User userExists = userService.findUserByEmail(user.getEmail());
-        System.out.println(user.getEmail());
-        System.out.println(user.getName());
-        System.out.println(user.getLastName());
-        System.out.println(user.getPassword());
         if (userExists != null) {
-            bindingResult
-                    .rejectValue("email", "error.user",
-                            "There is already a user registered with the email provided");
+            modelAndView.addObject("error.user", "There is already a user registered with the email provided");
         }
-        if (bindingResult.hasErrors()) {
-            modelAndView.setViewName("registration");
-        } else {
+        else {
             userService.saveUser(user);
             modelAndView.addObject("successMessage", "User has been registered successfully");
             modelAndView.addObject("user", new User());
-            modelAndView.setViewName("registration");
-
         }
+        modelAndView.setViewName("registration");
         return modelAndView;
     }
 
