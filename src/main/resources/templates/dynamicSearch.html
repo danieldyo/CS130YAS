@@ -38,8 +38,12 @@
   </form>
 </div>
 <div id="response">
-  You are currently on page {{pageNo}}.
-  <br>There are {{message.totalResults}} results.
+  {{^pageNo}}
+  <div class="center">{{message}}</div>
+  {{/pageNo}}
+  {{#pageNo}}
+  <div class="center">You are currently on page {{pageNo}}. There are {{message.totalResults}} total results.</div>
+  {{/pageNo}}
   <ul>
     {{#products}}
     <li>

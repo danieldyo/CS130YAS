@@ -40,7 +40,8 @@
         <div id="imagebox">
             <div class="arrow" id="right"><a href="#" onclick="showImgs(1)">→</a></div>
             <div class="arrow" id="left"><a href="#" onclick="showImgs(-1)">←</a></div>
-            <img class="img-slides" src="{{amazonIMG}}" />
+            {{#ebayNewImage}}<img class="img-slides" src="{{ebayNewImage}}" />{{/ebayNewImage}}
+            {{#amazonIMG}}<img class="img-slides" src="{{amazonIMG}}" />{{/amazonIMG}}
             <img class="img-slides" src="{{images.image.2}}" />
         </div>
     </div>
@@ -73,22 +74,22 @@
         <div id="new" class="tabcontent">
             <ul>
                 <li><a href="{{url}}" target="_blank">{{merchantName}} [↗]</a> &nbsp {{price}}</li>
-                <li><a href="{{amazonURL}}" target="_blank">Amazon [↗]</a> &nbsp {{amazonNewPrice}}</li>
-                <li><a href="{{ebayNewURL}}" target="_blank">eBay [↗]</a> &nbsp {{ebayNewPrice}}</li>
+                <li>Amazon {{#amazonURL}}<a href="{{amazonURL}}" target="_blank">[↗]</a>{{/amazonURL}} &nbsp {{amazonNewPrice}}</li>
+                <li>eBay {{#ebayNewURL}}<a href="{{ebayNewURL}}" target="_blank">[↗]</a>{{/ebayNewURL}} &nbsp {{ebayNewPrice}}</li>
             </ul>
         </div>
 
         <div id="used" class="tabcontent">
             <ul>
-                <li><a href="{{amazonURL}}" target="_blank">Amazon [↗]</a> &nbsp {{amazonUsedPrice}}</li>
-                <li><a href="{{ebayUsedURL}}" target="_blank">eBay [↗]</a> &nbsp {{ebayUsedPrice}}</li>
+                <li>Amazon {{#amazonURL}}<a href="{{amazonURL}}" target="_blank">[↗]</a>{{/amazonURL}} &nbsp {{amazonUsedPrice}}</li>
+                <li>eBay {{#ebayUsedURL}}<a href="{{ebayUsedURL}}" target="_blank">[↗]</a>{{/ebayUsedURL}} &nbsp {{ebayUsedPrice}}</li>
             </ul>
         </div>
 
         <div id="refurbished" class="tabcontent">
             <ul>
-                <li><a href="{{amazonURL}}" target="_blank">Amazon [↗]</a> &nbsp {{amazonRefurbishedPrice}}</li>
-                <li><a href="{{ebayRefurbishedURL}}" target="_blank">eBay [↗]</a> &nbsp {{ebayRefurbishedPrice}}</li>
+                <li>Amazon {{#amazonURL}}<a href="{{amazonURL}}" target="_blank">[↗]</a>{{/amazonURL}} &nbsp {{amazonRefurbishedPrice}}</li>
+                <li>eBay {{#ebayRefurbishedURL}}<a href="{{ebayRefurbishedURL}}" target="_blank">[↗]</a>{{/ebayRefurbishedURL}} &nbsp {{ebayRefurbishedPrice}}</li>
             </ul>
         </div>
 

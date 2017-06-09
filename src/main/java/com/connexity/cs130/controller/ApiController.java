@@ -222,6 +222,7 @@ public class ApiController {
             context.put("maxPrice", "");
             context.put("minPrice", "");
             context.put("sort", "relevancy_desc");
+            context.put("pageNo", false);
             return "dynamicSearch";
         }
 
@@ -238,7 +239,8 @@ public class ApiController {
         final String regExp = "(\\d+(.\\d{2})?)?";
 
         if (!minPrice.matches(regExp) || !maxPrice.matches(regExp)) {
-            context.put("message", "Input valid price range");
+            context.put("message", "Please input valid price range.");
+            context.put("pageNo", false);
             return "dynamicSearch";
         }
 
@@ -321,7 +323,7 @@ public class ApiController {
                 context.put(ebayURLContext, ebayURL);
             }
             else {
-                context.put(ebayURLContext, "");
+                context.put(ebayURLContext, false);
             }
 
             if (itemImageNode != null) {
@@ -329,7 +331,7 @@ public class ApiController {
                 context.put(ebayImageContext, imageURL);
             }
             else {
-                context.put(ebayImageContext, "");
+                context.put(ebayImageContext, false);
             }
 
         } catch (Exception e) {
@@ -343,9 +345,9 @@ public class ApiController {
             context.put("ebayNewPrice", "N/A");
             context.put("ebayUsedPrice", "N/A");
             context.put("ebayRefurbishedPrice", "N/A");
-            context.put("ebayNewURL", "");
-            context.put("ebayUsedURL", "");
-            context.put("ebayRefurbishedURL", "");
+            context.put("ebayNewURL", false);
+            context.put("ebayUsedURL", false);
+            context.put("ebayRefurbishedURL", false);
             return;
         }
 
@@ -369,8 +371,8 @@ public class ApiController {
             context.put("amazonNewPrice", "N/A");
             context.put("amazonUsedPrice", "N/A");
             context.put("amazonRefurbishedPrice", "N/A");
-            context.put("amazonURL", "");
-            context.put("amazonIMG", "");
+            context.put("amazonURL", false);
+            context.put("amazonIMG", false);
             return;
         }
 
@@ -454,14 +456,14 @@ public class ApiController {
                 context.put("amazonURL", amazonURL);
             }
             else {
-                context.put("amazonURL", "");
+                context.put("amazonURL", false);
             }
             if (amazonIMGNode != null) {
                 amazonIMG = amazonIMGNode.getTextContent();
                 context.put("amazonIMG", amazonIMG);
             }
             else {
-                context.put("amazonIMG", "");
+                context.put("amazonIMG", false);
             }
         } catch (Exception e) {
             throw new RuntimeException(e);
