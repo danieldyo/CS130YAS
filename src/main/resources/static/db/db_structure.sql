@@ -33,6 +33,14 @@ CREATE TABLE `user` (
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
+DROP TABLE IF EXISTS `wishlist`;
+
+CREATE TABLE `wishlist` (
+  `userID` int(11) NOT NULL,
+  `productID` varchar(20) NOT NULL,
+   CONSTRAINT wishlist_entry PRIMARY KEY (userID, productID)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
 
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
